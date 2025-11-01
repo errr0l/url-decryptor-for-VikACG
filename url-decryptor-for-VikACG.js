@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name         维咔VikACG加密链接转换器
 // @namespace    http://tampermonkey.net/
-// @version      1.2.1
+// @version      1.2.2
 // @description  本脚本提供了一种绕过广告页面，在当前页直接获取资源链接的方式，并提供复制功能（在原下载链接旁边可以看到）；此外，若因渲染问题未能自动解密&创建节点时，如某些资源需要评论(或其他手段)才能显示，本脚本还提供了手动的方式：右侧悬浮菜单，最下方"解密&创建节点"按钮，在完成前置条件后，点击该按钮，可到达相同的效果。
 // @author       virtual___nova@outlook.com
 // @match        https://www.vikacg.com/p/*.html
+// @match        https://www.vikacg.com/p/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=vikacg.com
 // @run-at       document-end
 // ==/UserScript==
@@ -3344,7 +3345,10 @@
     };
     const msg1 = "【复制成功】";
     const msg2 = "【复制】";
-    const defaultDelay = 2222;
+    const defaultDelay = 3000;
+
+    const pattern = /.*?e=(.*?)&?/;
+    let anchor = ".prose";
     function copyHandler(ev) {
         ev.preventDefault();
         const target = ev.target;
@@ -3361,7 +3365,6 @@
     }
     // 获取链接节点，若为隐藏内容，则需要提前使用积分支付；
     // 链接为动态渲染；
-    const pattern = /.*?e=(.*?)&?/;
     function filter(nodes) {
         const res = [];
         for (const node of nodes) {
@@ -3376,12 +3379,13 @@
     // 2）有隐藏内容；
     // 且还假设任一情形都包含有需要跳转的链接(external)
     function runner(callback) {
-        const entry_content = document.querySelector('.entry-content');
+        // const entry_content = document.querySelector('.entry-content');
+        const entry_content = document.querySelector(anchor);
         const target = entry_content;
         let aList = filter(target.querySelectorAll('a'));
         for (const item of aList) {
             const ele = document.createElement('a');
-            ele.className = "copy-1";
+            ele.className = "copy-1 hover:text-danger-500 text-blue";
             ele.innerText = msg2;
             const encrypted = item.href.replace(pattern, "$1");
             item.setAttribute("encrypted", "1");
@@ -3394,10 +3398,11 @@
     runner(check);
     // 尽量确保能加上自建节点（该页面有时候会再生成自定义节点后，刷新页面）
     let times = 1;
+    let times2 = 5;
     function check() {
         setTimeout(() => {
             // 需要从document重新获取
-            if (!document.querySelector('.entry-content').querySelectorAll('a.copy-1').length) {
+            if (!document.querySelector(anchor).querySelectorAll('a.copy-1').length) {
                 if (times > 5) {
                     return console.error(`[${new Date()}: 已到达最大次数]`);
                 }
@@ -3413,7 +3418,7 @@
     // 添加按钮
     function addBtnGenerate(times) {
         setTimeout(() => {
-            let bFooter = document.querySelector('.bar-footer');
+            let bFooter = document.querySelector('.vikacg-top');
             if (!bFooter) {
                 if (times > 0) {
                     console.info(`[${new Date()}: 尝试创建按钮...${times}]`);
@@ -3423,25 +3428,23 @@
                     return console.error(`[${new Date()}: 已到达最大次数]`);
                 }
             }
-            // 获取自定义属性，与样式相关
-            const dataVx = bFooter.getAttributeNames().find(item => item.startsWith("data-v"));
+            let dataVx = bFooter.parentNode;
+            let group = dataVx.parentNode;
+            let _span = dataVx.children[1];
             const btnGenerate = document.createElement('div');
             btnGenerate.id = "xx-btn-generate";
-            btnGenerate.className = "bar-item";
+            btnGenerate.className = dataVx.className;
             const i = document.createElement('i');
             i.className = "vikacg-bolt md vikacg-icon";
             const span = document.createElement('span');
             span.innerText = "解密&创建节点";
-            span.className = "bar-item-desc";
-            btnGenerate.setAttribute(dataVx, '');
-            span.setAttribute(dataVx, '');
-            i.setAttribute(dataVx, '');
+            span.className = _span.className;
             btnGenerate.appendChild(i);
             btnGenerate.appendChild(span);
-            bFooter.appendChild(btnGenerate);
+            group.appendChild(btnGenerate);
             btnGenerate.addEventListener('click', runner);
             console.info(`[${new Date()}: 成功创建按钮.]`);
-        }, defaultDelay * (4 - times));
+        }, defaultDelay * (times2 - times));
     }
-    addBtnGenerate(3);
+    addBtnGenerate(times2);
 })();
