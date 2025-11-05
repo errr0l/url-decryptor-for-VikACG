@@ -2,7 +2,7 @@
 // @name         维咔VikACG加密链接转换器
 // @namespace    http://tampermonkey.net/
 // @version      1.2.2
-// @description  本脚本提供了一种绕过广告页面，在当前页直接获取资源链接的方式，并提供复制功能（在原下载链接旁边可以看到）；此外，若因渲染问题未能自动解密&创建节点时，如某些资源需要评论(或其他手段)才能显示，本脚本还提供了手动的方式：右侧悬浮菜单，最下方"解密&创建节点"按钮，在完成前置条件后，点击该按钮，可到达相同的效果。
+// @description  本脚本提供了一种绕过广告，直接在当前页面获取资源链接的方式，并提供复制功能（在原下载链接旁边可以看到）；此外，若因渲染问题未能自动解密&创建节点时，如某些资源需要评论(或其他手段)才能显示，本脚本还提供了手动的方式：右侧悬浮菜单，最下方"解密&创建节点"按钮，在完成前置条件后，点击该按钮，可到达相同的效果。
 // @author       virtual___nova@outlook.com
 // @match        https://www.vikacg.com/p/*.html
 // @match        https://www.vikacg.com/p/*
@@ -3343,11 +3343,33 @@
             }).ciphertext.toString().toUpperCase()
         }
     };
+    const parameters = {
+        key: {
+            "words": [
+                1752725353,
+                2020112233,
+                2053994359,
+                1836736879,
+                1895825408
+            ],
+            "sigBytes": 128
+        },
+        iv: {
+            "words": [
+                1752725353,
+                2004513633,
+                1634564705,
+                1869676544
+            ],
+            "sigBytes": 128
+        }
+    };
     const msg1 = "【复制成功】";
     const msg2 = "【复制】";
     const defaultDelay = 3000;
+    const cached = {};
 
-    const pattern = /.*?e=(.*?)&?/;
+    const patterns = [/.*?e=(.*?)&?/, /.*?id=(.*?)&?/];
     let anchor = ".prose";
     function copyHandler(ev) {
         ev.preventDefault();
@@ -3367,8 +3389,17 @@
     // 链接为动态渲染；
     function filter(nodes) {
         const res = [];
+        let href;
         for (const node of nodes) {
-            if (node.href.includes("external") && !node.getAttribute('encrypted')) {
+            if (!node.getAttribute('encrypted') && (href = node.getAttribute("to"))?.includes("external")) {
+                for (let i=0; i<patterns.length; i++) {
+                    const pattern = patterns[i];
+                    if (pattern.test(href)) {
+                        node.matchedIndex = i;
+                        break;
+                    }
+                }
+                node.href = href;
                 res.push(node);
             }
         }
@@ -3378,20 +3409,45 @@
     // 1）无隐藏内容；
     // 2）有隐藏内容；
     // 且还假设任一情形都包含有需要跳转的链接(external)
-    function runner(callback) {
-        // const entry_content = document.querySelector('.entry-content');
+    async function runner(callback) {
         const entry_content = document.querySelector(anchor);
         const target = entry_content;
-        let aList = filter(target.querySelectorAll('a'));
+        let aList = filter(target.querySelectorAll('span'));
         for (const item of aList) {
             const ele = document.createElement('a');
-            ele.className = "copy-1 hover:text-danger-500 text-blue";
+            ele.className = "hover:text-danger-500 text-blue";
             ele.innerText = msg2;
-            const encrypted = item.href.replace(pattern, "$1");
-            item.setAttribute("encrypted", "1");
-            ele.href = hy.decrypt(encrypted);
+            let href = cached[item.href];
+            // 指的是，在一个方法中所扮演的角色
+            let parent = item.parentNode, child = item;
+            if (!href) {
+                let encrypted;
+                const index = item.matchedIndex;
+                const pattern = patterns[index];
+                if (index === 0) {
+                    encrypted = item.href.replace(pattern, "$1");
+                    href = hy.decrypt(encrypted);
+                    cached[item.href] = ele.href;
+                    item.setAttribute("decrypted", "1");
+                }
+                else if (index === 1) {
+                    const id = item.href.replace(pattern, "$1");
+                    encrypted = await getEncryptedData(id);
+                    if (encrypted) {
+                        let decrypted = hy.decrypt(encrypted, parameters);
+                        let json_decrypted = JSON.parse(decrypted).data;
+                        href = json_decrypted.download.s3.us2;
+                        cached[item.href] = ele.href;
+                        item.setAttribute("decrypted", "1");
+                    }
+                }
+            }
+            else {
+                item.setAttribute("decrypted", "1");
+            }
+            ele.href = href || item.href;
             ele.addEventListener('click', copyHandler);
-            item.parentNode.insertBefore(ele, item);
+            parent.insertBefore(ele, child);
         }
         typeof callback == 'function' && callback();
     }
@@ -3402,7 +3458,7 @@
     function check() {
         setTimeout(() => {
             // 需要从document重新获取
-            if (!document.querySelector(anchor).querySelectorAll('a.copy-1').length) {
+            if (!document.querySelector(anchor).querySelectorAll('[decrypted]').length) {
                 if (times > 5) {
                     return console.error(`[${new Date()}: 已到达最大次数]`);
                 }
@@ -3432,7 +3488,6 @@
             let group = dataVx.parentNode;
             let _span = dataVx.children[1];
             const btnGenerate = document.createElement('div');
-            btnGenerate.id = "xx-btn-generate";
             btnGenerate.className = dataVx.className;
             const i = document.createElement('i');
             i.className = "vikacg-bolt md vikacg-icon";
@@ -3447,4 +3502,176 @@
         }, defaultDelay * (times2 - times));
     }
     addBtnGenerate(times2);
+    // 通过ajax获取加密内容
+    // 适用于未显式给出链接的资源（如"立即下载"）
+    async function getEncryptedData(id) {
+        var J = Object.defineProperty;
+        var X = (h, t, s) => t in h ? J(h, t, {
+            enumerable: !0,
+            configurable: !0,
+            writable: !0,
+            value: s
+        }) : h[t] = s;
+        var d = (h, t, s) => X(h, typeof t != "symbol" ? t + "" : t, s);
+        const gt = [1779033703, -1150833019, 1013904242, -1521486534, 1359893119, -1694144372, 528734635, 1541459225]
+        , _t = [1116352408, 1899447441, -1245643825, -373957723, 961987163, 1508970993, -1841331548, -1424204075, -670586216, 310598401, 607225278, 1426881987, 1925078388, -2132889090, -1680079193, -1046744716, -459576895, -272742522, 264347078, 604807628, 770255983, 1249150122, 1555081692, 1996064986, -1740746414, -1473132947, -1341970488, -1084653625, -958395405, -710438585, 113926993, 338241895, 666307205, 773529912, 1294757372, 1396182291, 1695183700, 1986661051, -2117940946, -1838011259, -1564481375, -1474664885, -1035236496, -949202525, -778901479, -694614492, -200395387, 275423344, 430227734, 506948616, 659060556, 883997877, 958139571, 1322822218, 1537002063, 1747873779, 1955562222, 2024104815, -2067236844, -1933114872, -1866530822, -1538233109, -1090935817, -965641998]
+        , kt = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"
+        , N = [];
+        class bt {
+            constructor() {
+                d(this, "_data", new E);
+                d(this, "_hash", new E([...gt]));
+                d(this, "_nDataBytes", 0);
+                d(this, "_minBufferSize", 0)
+            }
+            finalize(t) {
+                t && this._append(t);
+                const s = this._nDataBytes * 8
+                , e = this._data.sigBytes * 8;
+                return this._data.words[e >>> 5] |= 128 << 24 - e % 32,
+                this._data.words[(e + 64 >>> 9 << 4) + 14] = Math.floor(s / 4294967296),
+                this._data.words[(e + 64 >>> 9 << 4) + 15] = s,
+                this._data.sigBytes = this._data.words.length * 4,
+                this._process(),
+                this._hash
+            }
+            _doProcessBlock(t, s) {
+                const e = this._hash.words;
+                let i = e[0]
+                , n = e[1]
+                , u = e[2]
+                , o = e[3]
+                , w = e[4]
+                , a = e[5]
+                , y = e[6]
+                , v = e[7];
+                for (let f = 0; f < 64; f++) {
+                    if (f < 16)
+                        N[f] = t[s + f] | 0;
+                    else {
+                        const D = N[f - 15]
+                        , k = (D << 25 | D >>> 7) ^ (D << 14 | D >>> 18) ^ D >>> 3
+                        , P = N[f - 2]
+                        , F = (P << 15 | P >>> 17) ^ (P << 13 | P >>> 19) ^ P >>> 10;
+                        N[f] = k + N[f - 7] + F + N[f - 16]
+                    }
+                    const O = w & a ^ ~w & y
+                    , z = i & n ^ i & u ^ n & u
+                    , m = (i << 30 | i >>> 2) ^ (i << 19 | i >>> 13) ^ (i << 10 | i >>> 22)
+                    , G = (w << 26 | w >>> 6) ^ (w << 21 | w >>> 11) ^ (w << 7 | w >>> 25)
+                    , L = v + G + O + _t[f] + N[f]
+                    , V = m + z;
+                    v = y,
+                    y = a,
+                    a = w,
+                    w = o + L | 0,
+                    o = u,
+                    u = n,
+                    n = i,
+                    i = L + V | 0
+                }
+                e[0] = e[0] + i | 0,
+                e[1] = e[1] + n | 0,
+                e[2] = e[2] + u | 0,
+                e[3] = e[3] + o | 0,
+                e[4] = e[4] + w | 0,
+                e[5] = e[5] + a | 0,
+                e[6] = e[6] + y | 0,
+                e[7] = e[7] + v | 0
+            }
+            _append(t) {
+                typeof t == "string" && (t = E.fromUtf8(t)),
+                this._data.concat(t),
+                this._nDataBytes += t.sigBytes
+            }
+            _process(t) {
+                let s, e = this._data.sigBytes / 64;
+                t ? e = Math.ceil(e) : e = Math.max((e | 0) - this._minBufferSize, 0);
+                const i = e * 16
+                , n = Math.min(i * 4, this._data.sigBytes);
+                if (i) {
+                    for (let u = 0; u < i; u += 16)
+                        this._doProcessBlock(this._data.words, u);
+                    s = this._data.words.splice(0, i),
+                    this._data.sigBytes -= n
+                }
+                return new E(s,n)
+            }
+        }
+        class E {
+            constructor(t, s) {
+                d(this, "words");
+                d(this, "sigBytes");
+                t = this.words = t || [],
+                this.sigBytes = s === void 0 ? t.length * 4 : s
+            }
+            static fromUtf8(t) {
+                const s = unescape(encodeURIComponent(t))
+                , e = s.length
+                , i = [];
+                for (let n = 0; n < e; n++)
+                    i[n >>> 2] |= (s.charCodeAt(n) & 255) << 24 - n % 4 * 8;
+                return new E(i,e)
+            }
+            toBase64() {
+                const t = [];
+                for (let s = 0; s < this.sigBytes; s += 3) {
+                    const e = this.words[s >>> 2] >>> 24 - s % 4 * 8 & 255
+                    , i = this.words[s + 1 >>> 2] >>> 24 - (s + 1) % 4 * 8 & 255
+                    , n = this.words[s + 2 >>> 2] >>> 24 - (s + 2) % 4 * 8 & 255
+                    , u = e << 16 | i << 8 | n;
+                    for (let o = 0; o < 4 && s * 8 + o * 6 < this.sigBytes * 8; o++)
+                        t.push(kt.charAt(u >>> 6 * (3 - o) & 63))
+                }
+                return t.join("")
+            }
+            concat(t) {
+                if (this.words[this.sigBytes >>> 2] &= 4294967295 << 32 - this.sigBytes % 4 * 8,
+                this.words.length = Math.ceil(this.sigBytes / 4),
+                this.sigBytes % 4)
+                    for (let s = 0; s < t.sigBytes; s++) {
+                        const e = t.words[s >>> 2] >>> 24 - s % 4 * 8 & 255;
+                        this.words[this.sigBytes + s >>> 2] |= e << 24 - (this.sigBytes + s) % 4 * 8
+                    }
+                else
+                    for (let s = 0; s < t.sigBytes; s += 4)
+                        this.words[this.sigBytes + s >>> 2] = t.words[s >>> 2];
+                this.sigBytes += t.sigBytes
+            }
+        }
+
+        function Bt(h) {
+            return new bt().finalize(h).toBase64()
+        }
+        let url = `https://www.vikacg.com/external/fastdown?id=${id}`;
+        const resp = await fetch(url, {
+            method: 'GET',
+            credentials: 'same-origin'
+        });
+        let html = await resp.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const script = doc.querySelector('script#\\__NUXT_DATA__[type="application/json"][data-ssr="true"]');
+        if (script && script.textContent) {
+            try {
+                const jsonData = JSON.parse(script.textContent);
+                // 在这里处理你的数据
+                const key = "$f" + Bt(`['$Y_-N4Q-pUC','/api/fastdown/v1/getID?paged=${id}&key=X28JxXeMvRmjHQZyTDEN','GET',undefined]`);
+                const index = jsonData.findIndex(item => item[key]);
+
+                if (index != -1) {
+                    return jsonData[index + 1];
+                }
+                else {
+                    console.error('解析失败');
+                }
+            }
+            catch (e) {
+                console.error('解析失败:', e);
+            }
+        }
+        else {
+            console.error('解析失败');
+        }
+    }
 })();
