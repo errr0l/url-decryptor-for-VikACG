@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         维咔VikACG加密链接转换器
 // @namespace    http://tampermonkey.net/
-// @version      1.2.3
-// @description  本脚本提供了一种绕过广告页面，在当前页直接获取资源链接的方式，并提供复制功能（在原下载链接旁边可以看到）；此外，若因渲染问题未能自动解密&创建节点时，如某些资源需要评论(或其他手段)才能显示，本脚本还提供了手动的方式：右侧悬浮菜单，最下方"解密&创建节点"按钮，在完成前置条件后，点击该按钮，可到达相同的效果。
+// @version      1.2.4
+// @description  本脚本提供了一种绕过广告页面，直接获取资源链接的方式，并提供复制功能（在原下载链接旁边可以看到）；此外，若因渲染问题未能自动解密&创建节点时，如某些资源需要评论(或其他手段)才能显示，本脚本还提供了手动的方式：右侧悬浮菜单，最下方"解密&创建节点"按钮，在完成前置条件后，点击该按钮，可到达相同的效果。
 // @author       virtual___nova@outlook.com
 // @match        https://www.vikacg.com/p/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=vikacg.com
@@ -1528,6 +1528,30 @@
             }(B2)),
             B2.exports
     }
+    const targets = [];
+    function hook(targets) {
+        const open = XMLHttpRequest.prototype.open; const send = XMLHttpRequest.prototype.send; XMLHttpRequest.prototype.open = function (method, url) { this._url = url; return open.apply(this, arguments); };
+        XMLHttpRequest.prototype.send = function (body) { const xhr = this; const onreadystatechange = xhr.onreadystatechange; xhr.onreadystatechange = function () { if (xhr.readyState === 4 && xhr.status >= 200 && xhr.status < 300) { for (let target of targets) { if (xhr._url.includes(target.a)) { target.b(xhr._url, xhr.responseText); } } } if (onreadystatechange) onreadystatechange.apply(this, arguments); }; return send.apply(xhr, arguments); };
+        hook.reset = () => { XMLHttpRequest.prototype.open = open; XMLHttpRequest.prototype.send = send; }
+    }
+    function respHandler(a, b) {
+        const ll = /https?:\/\/[^\s<>"{}|\\^`[\]]+/gi;
+        const lll = /.*?\((.*?)\)/;
+        const c = JSON.parse(b);
+        if (c.code == 200) {
+            if (c.data.hidden_content?.locked) {targets[0] = { a: '/getPostHiddenContent', b: respHandler };return;}
+            const d = c.data.hidden_content?.content || c.data.content;
+            for (let e of d) {
+                const f = new Set(e.match(ll));
+                if (!f.size) {continue;}
+                for (const g of f) {
+                    I.push({
+                        i: g,
+                        iiii(ii) {const iii = ii.replace(lll, '$1');
+                            if (iii && g.includes(iii)) {this.iii = createNode(); this.iii.href = g; return true;}
+                        },});}}setTimeout(() => { runner(); hook.reset(); }, defaultDelay);};}
+    targets.push({ a: '/getPost', b: respHandler });
+    hook(targets);
     var b2 = {
         exports: {}
     }, CE;
@@ -3305,36 +3329,37 @@
 
     var qme = yI.exports;
     const Vr = Su(qme)
-    , Uf = {
-        key: Vr.enc.Utf8.parse("7R75R3JZE2PZUTHH"),
-        iv: Vr.enc.Utf8.parse("XWO76NCVZM2X1UCU")
-    }
-    , hy = {
-        decrypt: (e, { key: t = Uf.key, iv: n = Uf.iv } = {}) => {
-            const r = Vr.enc.Hex.parse(e)
-                , o = Vr.enc.Base64.stringify(r);
-            return Vr.AES.decrypt(o, t, {
-                iv: n,
-                mode: Vr.mode.CBC,
-                padding: Vr.pad.Pkcs7
-            }).toString(Vr.enc.Utf8)
+        , Uf = {
+            key: Vr.enc.Utf8.parse("7R75R3JZE2PZUTHH"),
+            iv: Vr.enc.Utf8.parse("XWO76NCVZM2X1UCU")
         }
-        ,
-        encrypt: (e, { key: t = Uf.key, iv: n = Uf.iv } = {}) => {
-            const r = Vr.enc.Utf8.parse(e);
-            return Vr.AES.encrypt(r, t, {
-                iv: n,
-                mode: Vr.mode.CBC,
-                padding: Vr.pad.Pkcs7
-            }).ciphertext.toString().toUpperCase()
-        }
-    };
+        , hy = {
+            decrypt: (e, { key: t = Uf.key, iv: n = Uf.iv } = {}) => {
+                const r = Vr.enc.Hex.parse(e)
+                    , o = Vr.enc.Base64.stringify(r);
+                return Vr.AES.decrypt(o, t, {
+                    iv: n,
+                    mode: Vr.mode.CBC,
+                    padding: Vr.pad.Pkcs7
+                }).toString(Vr.enc.Utf8)
+            }
+            ,
+            encrypt: (e, { key: t = Uf.key, iv: n = Uf.iv } = {}) => {
+                const r = Vr.enc.Utf8.parse(e);
+                return Vr.AES.encrypt(r, t, {
+                    iv: n,
+                    mode: Vr.mode.CBC,
+                    padding: Vr.pad.Pkcs7
+                }).ciphertext.toString().toUpperCase()
+            }
+        };
     const msg1 = "【复制成功】";
     const msg2 = "【复制】";
     const defaultDelay = 3000;
 
     const pattern = /.*?e=(.*?)&?/;
     let anchor = ".prose";
+    const I = [];
     function copyHandler(ev) {
         ev.preventDefault();
         const target = ev.target;
@@ -3344,9 +3369,8 @@
         }
         navigator.clipboard.writeText(target.href, true);
         target.innerText = msg1;
-        let timer = setTimeout(() => {
+        setTimeout(() => {
             target.innerText = msg2;
-            clearTimeout(timer);
         }, defaultDelay);
     }
     function filter(nodes) {
@@ -3360,20 +3384,51 @@
         }
         return res;
     }
+    function createNode() {
+        const ele = document.createElement('a');
+        ele.style = "display: inline-block !important";
+        ele.className = "hover:text-danger-500 text-blue";
+        ele.innerText = msg2;
+        ele.addEventListener('click', copyHandler);
+        return ele;
+    }
     function runner(callback) {
         const entry_content = document.querySelector(anchor);
         const target = entry_content;
-        let aList = filter([...target.querySelectorAll('a'), ...target.querySelectorAll('span')]);
+        const candidates = [...target.querySelectorAll('a'), ...target.querySelectorAll('span')];
+        let aList = filter(candidates);
         for (const item of aList) {
             const encrypted = item.href.replace(pattern, "$1");
-            const ele = document.createElement('a');
-            ele.style = "display: inline-block !important";
-            ele.className = "hover:text-danger-500 text-blue";
-            ele.innerText = msg2;
+            const ele = createNode();
             item.setAttribute("decrypted", "1");
             ele.href = hy.decrypt(encrypted);
-            ele.addEventListener('click', copyHandler);
             item.parentNode.insertBefore(ele, item);
+            I.push({
+                i: item.textContent,
+                ii: item.tagName.toLocaleLowerCase(),
+                iii: ele,
+                iiii(i) {
+                    return this.i === i;
+                }
+            });
+        }
+        if (!aList.length && I.length) {
+            const i = candidates; let ii = 0;
+            for (let iii = 0; iii < I.length; iii++) {
+                let iiii = I[iii];
+                for (let iiiii = ii; iiiii < i.length; iiiii++) {
+                    const iiiiii = i[iiiii];
+                    let iiiiiii;
+                    if ((iiiiiii = iiiiii.firstChild.nodeValue) && iiiiiii && iiii.iiii(iiiiiii)) {
+                        const i = iiiiii.parentNode.parentNode;
+                        i.setAttribute("decrypted", "1");
+                        i.insertBefore(iiii.iii, i.childNodes[i.childNodes.length == 1 ? 0 : 1]);
+                        ii = ++iiiii;
+                        break;
+                    }
+                }
+            }
+            I.length = 0;
         }
         typeof callback == 'function' && callback();
     }
@@ -3389,11 +3444,11 @@
                 times++;
                 runner(check);
             }
-        }, defaultDelay * 4);
+        }, defaultDelay * 2);
     }
     function addBtnGenerate(times) {
         setTimeout(() => {
-            let bFooter = document.querySelector('.vikacg-top');
+            let bFooter = document.querySelector('.harmonyos-moon_fill');
             if (!bFooter) {
                 if (times > 0) {
                     return addBtnGenerate(--times);

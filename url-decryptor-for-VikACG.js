@@ -2,7 +2,7 @@
 // @name         维咔VikACG加密链接转换器
 // @namespace    http://tampermonkey.net/
 // @version      1.2.2
-// @description  本脚本提供了一种绕过广告，直接在当前页面获取资源链接的方式，并提供复制功能（在原下载链接旁边可以看到）；此外，若因渲染问题未能自动解密&创建节点时，如某些资源需要评论(或其他手段)才能显示，本脚本还提供了手动的方式：右侧悬浮菜单，最下方"解密&创建节点"按钮，在完成前置条件后，点击该按钮，可到达相同的效果。
+// @description  本脚本提供了一种绕过广告，直接获取资源链接的方式，并提供复制功能（在原下载链接旁边可以看到）；此外，若因渲染问题未能自动解密&创建节点时，如某些资源需要评论(或其他手段)才能显示，本脚本还提供了手动的方式：右侧悬浮菜单，最下方"解密&创建节点"按钮，在完成前置条件后，点击该按钮，可到达相同的效果。
 // @author       virtual___nova@outlook.com
 // @match        https://www.vikacg.com/p/*.html
 // @match        https://www.vikacg.com/p/*
@@ -3301,30 +3301,30 @@
 
     var qme = yI.exports;
     const Vr = Su(qme)
-    , Uf = {
-        key: Vr.enc.Utf8.parse("7R75R3JZE2PZUTHH"),
-        iv: Vr.enc.Utf8.parse("XWO76NCVZM2X1UCU")
-    }
-    , hy = {
-        decrypt: (e, { key: t = Uf.key, iv: n = Uf.iv } = {}) => {
-            const r = Vr.enc.Hex.parse(e)
-                , o = Vr.enc.Base64.stringify(r);
-            return Vr.AES.decrypt(o, t, {
-                iv: n,
-                mode: Vr.mode.CBC,
-                padding: Vr.pad.Pkcs7
-            }).toString(Vr.enc.Utf8)
+        , Uf = {
+            key: Vr.enc.Utf8.parse("7R75R3JZE2PZUTHH"),
+            iv: Vr.enc.Utf8.parse("XWO76NCVZM2X1UCU")
         }
-        ,
-        encrypt: (e, { key: t = Uf.key, iv: n = Uf.iv } = {}) => {
-            const r = Vr.enc.Utf8.parse(e);
-            return Vr.AES.encrypt(r, t, {
-                iv: n,
-                mode: Vr.mode.CBC,
-                padding: Vr.pad.Pkcs7
-            }).ciphertext.toString().toUpperCase()
-        }
-    };
+        , hy = {
+            decrypt: (e, { key: t = Uf.key, iv: n = Uf.iv } = {}) => {
+                const r = Vr.enc.Hex.parse(e)
+                    , o = Vr.enc.Base64.stringify(r);
+                return Vr.AES.decrypt(o, t, {
+                    iv: n,
+                    mode: Vr.mode.CBC,
+                    padding: Vr.pad.Pkcs7
+                }).toString(Vr.enc.Utf8)
+            }
+            ,
+            encrypt: (e, { key: t = Uf.key, iv: n = Uf.iv } = {}) => {
+                const r = Vr.enc.Utf8.parse(e);
+                return Vr.AES.encrypt(r, t, {
+                    iv: n,
+                    mode: Vr.mode.CBC,
+                    padding: Vr.pad.Pkcs7
+                }).ciphertext.toString().toUpperCase()
+            }
+        };
     const parameters = {
         key: {
             "words": [
@@ -3374,7 +3374,7 @@
         for (const node of nodes) {
             const tagName = node.tagName;
             if (!node.getAttribute('decrypted') && (href = node.getAttribute(tagName === "SPAN" ? "to" : 'href'))?.includes("external")) {
-                for (let i=0; i<patterns.length; i++) {
+                for (let i = 0; i < patterns.length; i++) {
                     const pattern = patterns[i];
                     if (pattern.test(href)) {
                         node.matchedIndex = i;
@@ -3493,9 +3493,9 @@
     }) : h[t] = s;
     var d = (h, t, s) => X(h, typeof t != "symbol" ? t + "" : t, s);
     const gt = [1779033703, -1150833019, 1013904242, -1521486534, 1359893119, -1694144372, 528734635, 1541459225]
-    , _t = [1116352408, 1899447441, -1245643825, -373957723, 961987163, 1508970993, -1841331548, -1424204075, -670586216, 310598401, 607225278, 1426881987, 1925078388, -2132889090, -1680079193, -1046744716, -459576895, -272742522, 264347078, 604807628, 770255983, 1249150122, 1555081692, 1996064986, -1740746414, -1473132947, -1341970488, -1084653625, -958395405, -710438585, 113926993, 338241895, 666307205, 773529912, 1294757372, 1396182291, 1695183700, 1986661051, -2117940946, -1838011259, -1564481375, -1474664885, -1035236496, -949202525, -778901479, -694614492, -200395387, 275423344, 430227734, 506948616, 659060556, 883997877, 958139571, 1322822218, 1537002063, 1747873779, 1955562222, 2024104815, -2067236844, -1933114872, -1866530822, -1538233109, -1090935817, -965641998]
-    , kt = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"
-    , N = [];
+        , _t = [1116352408, 1899447441, -1245643825, -373957723, 961987163, 1508970993, -1841331548, -1424204075, -670586216, 310598401, 607225278, 1426881987, 1925078388, -2132889090, -1680079193, -1046744716, -459576895, -272742522, 264347078, 604807628, 770255983, 1249150122, 1555081692, 1996064986, -1740746414, -1473132947, -1341970488, -1084653625, -958395405, -710438585, 113926993, 338241895, 666307205, 773529912, 1294757372, 1396182291, 1695183700, 1986661051, -2117940946, -1838011259, -1564481375, -1474664885, -1035236496, -949202525, -778901479, -694614492, -200395387, 275423344, 430227734, 506948616, 659060556, 883997877, 958139571, 1322822218, 1537002063, 1747873779, 1955562222, 2024104815, -2067236844, -1933114872, -1866530822, -1538233109, -1090935817, -965641998]
+        , kt = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"
+        , N = [];
     class bt {
         constructor() {
             d(this, "_data", new E);
@@ -3506,75 +3506,75 @@
         finalize(t) {
             t && this._append(t);
             const s = this._nDataBytes * 8
-            , e = this._data.sigBytes * 8;
+                , e = this._data.sigBytes * 8;
             return this._data.words[e >>> 5] |= 128 << 24 - e % 32,
-            this._data.words[(e + 64 >>> 9 << 4) + 14] = Math.floor(s / 4294967296),
-            this._data.words[(e + 64 >>> 9 << 4) + 15] = s,
-            this._data.sigBytes = this._data.words.length * 4,
-            this._process(),
-            this._hash
+                this._data.words[(e + 64 >>> 9 << 4) + 14] = Math.floor(s / 4294967296),
+                this._data.words[(e + 64 >>> 9 << 4) + 15] = s,
+                this._data.sigBytes = this._data.words.length * 4,
+                this._process(),
+                this._hash
         }
         _doProcessBlock(t, s) {
             const e = this._hash.words;
             let i = e[0]
-            , n = e[1]
-            , u = e[2]
-            , o = e[3]
-            , w = e[4]
-            , a = e[5]
-            , y = e[6]
-            , v = e[7];
+                , n = e[1]
+                , u = e[2]
+                , o = e[3]
+                , w = e[4]
+                , a = e[5]
+                , y = e[6]
+                , v = e[7];
             for (let f = 0; f < 64; f++) {
                 if (f < 16)
                     N[f] = t[s + f] | 0;
                 else {
                     const D = N[f - 15]
-                    , k = (D << 25 | D >>> 7) ^ (D << 14 | D >>> 18) ^ D >>> 3
-                    , P = N[f - 2]
-                    , F = (P << 15 | P >>> 17) ^ (P << 13 | P >>> 19) ^ P >>> 10;
+                        , k = (D << 25 | D >>> 7) ^ (D << 14 | D >>> 18) ^ D >>> 3
+                        , P = N[f - 2]
+                        , F = (P << 15 | P >>> 17) ^ (P << 13 | P >>> 19) ^ P >>> 10;
                     N[f] = k + N[f - 7] + F + N[f - 16]
                 }
                 const O = w & a ^ ~w & y
-                , z = i & n ^ i & u ^ n & u
-                , m = (i << 30 | i >>> 2) ^ (i << 19 | i >>> 13) ^ (i << 10 | i >>> 22)
-                , G = (w << 26 | w >>> 6) ^ (w << 21 | w >>> 11) ^ (w << 7 | w >>> 25)
-                , L = v + G + O + _t[f] + N[f]
-                , V = m + z;
+                    , z = i & n ^ i & u ^ n & u
+                    , m = (i << 30 | i >>> 2) ^ (i << 19 | i >>> 13) ^ (i << 10 | i >>> 22)
+                    , G = (w << 26 | w >>> 6) ^ (w << 21 | w >>> 11) ^ (w << 7 | w >>> 25)
+                    , L = v + G + O + _t[f] + N[f]
+                    , V = m + z;
                 v = y,
-                y = a,
-                a = w,
-                w = o + L | 0,
-                o = u,
-                u = n,
-                n = i,
-                i = L + V | 0
+                    y = a,
+                    a = w,
+                    w = o + L | 0,
+                    o = u,
+                    u = n,
+                    n = i,
+                    i = L + V | 0
             }
             e[0] = e[0] + i | 0,
-            e[1] = e[1] + n | 0,
-            e[2] = e[2] + u | 0,
-            e[3] = e[3] + o | 0,
-            e[4] = e[4] + w | 0,
-            e[5] = e[5] + a | 0,
-            e[6] = e[6] + y | 0,
-            e[7] = e[7] + v | 0
+                e[1] = e[1] + n | 0,
+                e[2] = e[2] + u | 0,
+                e[3] = e[3] + o | 0,
+                e[4] = e[4] + w | 0,
+                e[5] = e[5] + a | 0,
+                e[6] = e[6] + y | 0,
+                e[7] = e[7] + v | 0
         }
         _append(t) {
             typeof t == "string" && (t = E.fromUtf8(t)),
-            this._data.concat(t),
-            this._nDataBytes += t.sigBytes
+                this._data.concat(t),
+                this._nDataBytes += t.sigBytes
         }
         _process(t) {
             let s, e = this._data.sigBytes / 64;
             t ? e = Math.ceil(e) : e = Math.max((e | 0) - this._minBufferSize, 0);
             const i = e * 16
-            , n = Math.min(i * 4, this._data.sigBytes);
+                , n = Math.min(i * 4, this._data.sigBytes);
             if (i) {
                 for (let u = 0; u < i; u += 16)
                     this._doProcessBlock(this._data.words, u);
                 s = this._data.words.splice(0, i),
-                this._data.sigBytes -= n
+                    this._data.sigBytes -= n
             }
-            return new E(s,n)
+            return new E(s, n)
         }
     }
     class E {
@@ -3582,23 +3582,23 @@
             d(this, "words");
             d(this, "sigBytes");
             t = this.words = t || [],
-            this.sigBytes = s === void 0 ? t.length * 4 : s
+                this.sigBytes = s === void 0 ? t.length * 4 : s
         }
         static fromUtf8(t) {
             const s = unescape(encodeURIComponent(t))
-            , e = s.length
-            , i = [];
+                , e = s.length
+                , i = [];
             for (let n = 0; n < e; n++)
                 i[n >>> 2] |= (s.charCodeAt(n) & 255) << 24 - n % 4 * 8;
-            return new E(i,e)
+            return new E(i, e)
         }
         toBase64() {
             const t = [];
             for (let s = 0; s < this.sigBytes; s += 3) {
                 const e = this.words[s >>> 2] >>> 24 - s % 4 * 8 & 255
-                , i = this.words[s + 1 >>> 2] >>> 24 - (s + 1) % 4 * 8 & 255
-                , n = this.words[s + 2 >>> 2] >>> 24 - (s + 2) % 4 * 8 & 255
-                , u = e << 16 | i << 8 | n;
+                    , i = this.words[s + 1 >>> 2] >>> 24 - (s + 1) % 4 * 8 & 255
+                    , n = this.words[s + 2 >>> 2] >>> 24 - (s + 2) % 4 * 8 & 255
+                    , u = e << 16 | i << 8 | n;
                 for (let o = 0; o < 4 && s * 8 + o * 6 < this.sigBytes * 8; o++)
                     t.push(kt.charAt(u >>> 6 * (3 - o) & 63))
             }
@@ -3606,8 +3606,8 @@
         }
         concat(t) {
             if (this.words[this.sigBytes >>> 2] &= 4294967295 << 32 - this.sigBytes % 4 * 8,
-            this.words.length = Math.ceil(this.sigBytes / 4),
-            this.sigBytes % 4)
+                this.words.length = Math.ceil(this.sigBytes / 4),
+                this.sigBytes % 4)
                 for (let s = 0; s < t.sigBytes; s++) {
                     const e = t.words[s >>> 2] >>> 24 - s % 4 * 8 & 255;
                     this.words[this.sigBytes + s >>> 2] |= e << 24 - (this.sigBytes + s) % 4 * 8
@@ -3654,4 +3654,45 @@
             console.error('解析失败');
         }
     }
+    const targets = [];
+    function hook(targets) {
+        const open = XMLHttpRequest.prototype.open; const send = XMLHttpRequest.prototype.send; XMLHttpRequest.prototype.open = function (method, url) { this._url = url; return open.apply(this, arguments); };
+        XMLHttpRequest.prototype.send = function (body) {
+            const xhr = this;
+            const onreadystatechange = xhr.onreadystatechange;
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status >= 200 && xhr.status < 300) {
+                    for (let target of targets) {
+                        if (xhr._url.includes(target.a)) {
+                            target.b(xhr._url, xhr.responseText);
+                        }
+                    }
+                }
+                if (onreadystatechange) {
+                    onreadystatechange.apply(this, arguments);
+                }
+            };
+            return send.apply(xhr, arguments);
+        };
+        hook.reset = () => {
+            XMLHttpRequest.prototype.open = open;
+            XMLHttpRequest.prototype.send = send;
+        }
+    }
+    const ll = /https?:\/\/[^\s<>"{}|\\^`[\]]+/i;
+    const lll = /.*?\((.*?)\)/;
+    function respHandler(a, b) {
+        const c = JSON.parse(b);
+        if (c.code == 200) {
+            if (c.data.hidden_content.locked) {
+                targets[0] = {a: '/getPostHiddenContent', b: respHandler};
+                return;
+            }
+            const d = c.data.hidden_content.content;
+            for (let e of d) {
+                const f = e.match(ll)?.[0];
+                I.push({i:f, iiii(ii){const iii=ii.replace(lll, '$1');if(iii && f.includes(iii)) {this.iii=createNode();this.iii.href=f;return true;}},});}setTimeout(() => {runner();hook.reset();}, defaultDelay * 2);};
+    }
+    targets.push({a:'/getPost', b: respHandler});
+    hook(targets);
 })();
