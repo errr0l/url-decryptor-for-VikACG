@@ -1,14 +1,13 @@
 // ==UserScript==
 // @name         维咔VikACG加密链接转换器
 // @namespace    http://tampermonkey.net/
-// @version      1.2.4
-// @description  本脚本提供了一种绕过广告页面，直接获取资源链接的方式，并提供复制功能（在原下载链接旁边可以看到）；此外，若因渲染问题未能自动解密&创建节点时，如某些资源需要评论(或其他手段)才能显示，本脚本还提供了手动的方式：右侧悬浮菜单，最下方"解密&创建节点"按钮，在完成前置条件后，点击该按钮，可到达相同的效果。
+// @version      1.2.2
+// @description  本脚本提供了一种绕过广告，直接获取资源链接的方式，并提供复制功能（在原下载链接旁边可以看到）；此外，若因渲染问题未能自动解密&创建节点时，如某些资源需要评论(或其他手段)才能显示，本脚本还提供了手动的方式：右侧悬浮菜单，最下方"解密&创建节点"按钮，在完成前置条件后，点击该按钮，可到达相同的效果。
 // @author       virtual___nova@outlook.com
+// @match        https://www.vikacg.com/p/*.html
 // @match        https://www.vikacg.com/p/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=vikacg.com
 // @run-at       document-end
-// @downloadURL https://update.greasyfork.org/scripts/537942/%E7%BB%B4%E5%92%94VikACG%E5%8A%A0%E5%AF%86%E9%93%BE%E6%8E%A5%E8%BD%AC%E6%8D%A2%E5%99%A8.user.js
-// @updateURL https://update.greasyfork.org/scripts/537942/%E7%BB%B4%E5%92%94VikACG%E5%8A%A0%E5%AF%86%E9%93%BE%E6%8E%A5%E8%BD%AC%E6%8D%A2%E5%99%A8.meta.js
 // ==/UserScript==
 
 (function () {
@@ -45,9 +44,6 @@
     var yI = {
         exports: {}
     };
-    function Kl(e) {
-        throw new Error('Could not dynamically require "' + e + '". Please configure the dynamicRequireTargets or/and ignoreDynamicRequires option of @rollup/plugin-commonjs appropriately for this require call to work.')
-    }
     var i2 = {
         exports: {}
     };
@@ -1528,30 +1524,6 @@
             }(B2)),
             B2.exports
     }
-    const targets = [];
-    function hook(targets) {
-        const open = XMLHttpRequest.prototype.open; const send = XMLHttpRequest.prototype.send; XMLHttpRequest.prototype.open = function (method, url) { this._url = url; return open.apply(this, arguments); };
-        XMLHttpRequest.prototype.send = function (body) { const xhr = this; const onreadystatechange = xhr.onreadystatechange; xhr.onreadystatechange = function () { if (xhr.readyState === 4 && xhr.status >= 200 && xhr.status < 300) { for (let target of targets) { if (xhr._url.includes(target.a)) { target.b(xhr._url, xhr.responseText); } } } if (onreadystatechange) onreadystatechange.apply(this, arguments); }; return send.apply(xhr, arguments); };
-        hook.reset = () => { XMLHttpRequest.prototype.open = open; XMLHttpRequest.prototype.send = send; }
-    }
-    function respHandler(a, b) {
-        const ll = /https?:\/\/[^\s<>"{}|\\^`[\]]+/gi;
-        const lll = /.*?\((.*?)\)/;
-        const c = JSON.parse(b);
-        if (c.code == 200) {
-            if (c.data.hidden_content?.locked) {targets[0] = { a: '/getPostHiddenContent', b: respHandler };return;}
-            const d = c.data.hidden_content?.content || c.data.content;
-            for (let e of d) {
-                const f = new Set(e.match(ll));
-                if (!f.size) {continue;}
-                for (const g of f) {
-                    I.push({
-                        i: g,
-                        iiii(ii) {const iii = ii.replace(lll, '$1');
-                            if (iii && g.includes(iii)) {this.iii = createNode(); this.iii.href = g; return true;}
-                        },});}}setTimeout(() => { runner(); hook.reset(); }, defaultDelay);};}
-    targets.push({ a: '/getPost', b: respHandler });
-    hook(targets);
     var b2 = {
         exports: {}
     }, CE;
@@ -3353,13 +3325,34 @@
                 }).ciphertext.toString().toUpperCase()
             }
         };
+    const parameters = {
+        key: {
+            "words": [
+                1752725353,
+                2020112233,
+                2053994359,
+                1836736879,
+                1895825408
+            ],
+            "sigBytes": 128
+        },
+        iv: {
+            "words": [
+                1752725353,
+                2004513633,
+                1634564705,
+                1869676544
+            ],
+            "sigBytes": 128
+        }
+    };
     const msg1 = "【复制成功】";
     const msg2 = "【复制】";
     const defaultDelay = 3000;
+    const cached = {};
 
-    const pattern = /.*?e=(.*?)&?/;
+    const patterns = [/.*?e=(.*?)&?/, /.*?id=(.*?)&?/];
     let anchor = ".prose";
-    const I = [];
     function copyHandler(ev) {
         ev.preventDefault();
         const target = ev.target;
@@ -3373,95 +3366,110 @@
             target.innerText = msg2;
         }, defaultDelay);
     }
+    // 获取链接节点，若为隐藏内容，则需要提前使用积分支付；
+    // 链接为动态渲染；
     function filter(nodes) {
         const res = [];
+        let href;
         for (const node of nodes) {
-            let href;
-            if ((href = node.href || node.getAttribute("to")) && pattern.test(href) && !node.getAttribute('decrypted')) {
-                !node.href && (node.href = href);
+            const tagName = node.tagName;
+            if (!node.getAttribute('decrypted') && (href = node.getAttribute(tagName === "SPAN" ? "to" : 'href'))?.includes("external")) {
+                for (let i = 0; i < patterns.length; i++) {
+                    const pattern = patterns[i];
+                    if (pattern.test(href)) {
+                        node.matchedIndex = i;
+                        break;
+                    }
+                }
+                node.href = href;
                 res.push(node);
             }
         }
         return res;
     }
-    function createNode() {
-        const ele = document.createElement('a');
-        ele.style = "display: inline-block !important";
-        ele.className = "hover:text-danger-500 text-blue";
-        ele.innerText = msg2;
-        ele.addEventListener('click', copyHandler);
-        return ele;
-    }
-    function runner(callback) {
+    // 目前假设只有以下两种情况：
+    // 1）无隐藏内容；
+    // 2）有隐藏内容；
+    // 且还假设任一情形都包含有需要跳转的链接(external)
+    async function runner(callback) {
         const entry_content = document.querySelector(anchor);
         const target = entry_content;
-        const candidates = [...target.querySelectorAll('a'), ...target.querySelectorAll('span')];
-        let aList = filter(candidates);
+        let aList = filter([...target.querySelectorAll('span'), ...target.querySelectorAll('a')]);
         for (const item of aList) {
-            const encrypted = item.href.replace(pattern, "$1");
-            const ele = createNode();
-            item.setAttribute("decrypted", "1");
-            ele.href = hy.decrypt(encrypted);
-            item.parentNode.insertBefore(ele, item);
-            I.push({
-                i: item.textContent,
-                ii: item.tagName.toLocaleLowerCase(),
-                iii: ele,
-                iiii(i) {
-                    return this.i === i;
+            const ele = document.createElement('a');
+            ele.className = "hover:text-danger-500 text-blue";
+            ele.innerText = msg2;
+            let href = cached[item.href];
+            // 指的是，在一个方法中所扮演的角色
+            let parent = item.parentNode, child = item;
+            if (!href) {
+                let encrypted;
+                const index = item.matchedIndex;
+                const pattern = patterns[index];
+                if (index === 0) {
+                    encrypted = item.href.replace(pattern, "$1");
+                    href = hy.decrypt(encrypted);
+                    cached[item.href] = ele.href;
+                    item.setAttribute("decrypted", "1");
                 }
-            });
-        }
-        if (!aList.length && I.length) {
-            const i = candidates; let ii = 0;
-            for (let iii = 0; iii < I.length; iii++) {
-                let iiii = I[iii];
-                for (let iiiii = ii; iiiii < i.length; iiiii++) {
-                    const iiiiii = i[iiiii];
-                    let iiiiiii;
-                    if ((iiiiiii = iiiiii.firstChild.nodeValue) && iiiiiii && iiii.iiii(iiiiiii)) {
-                        const i = iiiiii.parentNode.parentNode;
-                        i.setAttribute("decrypted", "1");
-                        i.insertBefore(iiii.iii, i.childNodes[i.childNodes.length == 1 ? 0 : 1]);
-                        ii = ++iiiii;
-                        break;
+                else if (index === 1) {
+                    const id = item.href.replace(pattern, "$1");
+                    encrypted = await getEncryptedData(id);
+                    if (encrypted) {
+                        let decrypted = hy.decrypt(encrypted, parameters);
+                        let json_decrypted = JSON.parse(decrypted).data;
+                        href = json_decrypted.download.s3.us2;
+                        cached[item.href] = ele.href;
+                        item.setAttribute("decrypted", "1");
                     }
                 }
             }
-            I.length = 0;
+            else {
+                item.setAttribute("decrypted", "1");
+            }
+            ele.href = href || item.href;
+            ele.addEventListener('click', copyHandler);
+            parent.insertBefore(ele, child);
         }
         typeof callback == 'function' && callback();
     }
     runner(check);
+    // 尽量确保能加上自建节点（该页面有时候会再生成自定义节点后，刷新页面）
     let times = 1;
-    let maxTimes = 5;
+    let times2 = 5;
     function check() {
         setTimeout(() => {
+            // 需要从document重新获取
             if (!document.querySelector(anchor).querySelectorAll('[decrypted]').length) {
-                if (times > maxTimes) {
-                    return;
+                if (times > 5) {
+                    return console.error(`[${new Date()}: 已到达最大次数]`);
                 }
+                console.info(`[${new Date()}: 尝试解密&创建节点...${times}]`);
                 times++;
                 runner(check);
             }
-        }, defaultDelay * 2);
+            else {
+                console.info(`[${new Date()}: 成功解密&创建节点.]`);
+            }
+        }, defaultDelay * 4);
     }
+    // 添加按钮
     function addBtnGenerate(times) {
         setTimeout(() => {
-            let bFooter = document.querySelector('.harmonyos-moon_fill');
+            let bFooter = document.querySelector('.vikacg-top');
             if (!bFooter) {
                 if (times > 0) {
+                    console.info(`[${new Date()}: 尝试创建按钮...${times}]`);
                     return addBtnGenerate(--times);
                 }
                 else {
-                    return;
+                    return console.error(`[${new Date()}: 已到达最大次数]`);
                 }
             }
             let dataVx = bFooter.parentNode;
             let group = dataVx.parentNode;
             let _span = dataVx.children[1];
             const btnGenerate = document.createElement('div');
-            btnGenerate.style = "display: inline-block !important";
             btnGenerate.className = dataVx.className;
             const i = document.createElement('i');
             i.className = "vikacg-bolt md vikacg-icon";
@@ -3472,7 +3480,222 @@
             btnGenerate.appendChild(span);
             group.appendChild(btnGenerate);
             btnGenerate.addEventListener('click', runner);
-        }, defaultDelay * (maxTimes - times));
+            console.info(`[${new Date()}: 成功创建按钮.]`);
+        }, defaultDelay * (times2 - times));
     }
-    addBtnGenerate(maxTimes);
+    addBtnGenerate(times2);
+    var J = Object.defineProperty;
+    var X = (h, t, s) => t in h ? J(h, t, {
+        enumerable: !0,
+        configurable: !0,
+        writable: !0,
+        value: s
+    }) : h[t] = s;
+    var d = (h, t, s) => X(h, typeof t != "symbol" ? t + "" : t, s);
+    const gt = [1779033703, -1150833019, 1013904242, -1521486534, 1359893119, -1694144372, 528734635, 1541459225]
+        , _t = [1116352408, 1899447441, -1245643825, -373957723, 961987163, 1508970993, -1841331548, -1424204075, -670586216, 310598401, 607225278, 1426881987, 1925078388, -2132889090, -1680079193, -1046744716, -459576895, -272742522, 264347078, 604807628, 770255983, 1249150122, 1555081692, 1996064986, -1740746414, -1473132947, -1341970488, -1084653625, -958395405, -710438585, 113926993, 338241895, 666307205, 773529912, 1294757372, 1396182291, 1695183700, 1986661051, -2117940946, -1838011259, -1564481375, -1474664885, -1035236496, -949202525, -778901479, -694614492, -200395387, 275423344, 430227734, 506948616, 659060556, 883997877, 958139571, 1322822218, 1537002063, 1747873779, 1955562222, 2024104815, -2067236844, -1933114872, -1866530822, -1538233109, -1090935817, -965641998]
+        , kt = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"
+        , N = [];
+    class bt {
+        constructor() {
+            d(this, "_data", new E);
+            d(this, "_hash", new E([...gt]));
+            d(this, "_nDataBytes", 0);
+            d(this, "_minBufferSize", 0)
+        }
+        finalize(t) {
+            t && this._append(t);
+            const s = this._nDataBytes * 8
+                , e = this._data.sigBytes * 8;
+            return this._data.words[e >>> 5] |= 128 << 24 - e % 32,
+                this._data.words[(e + 64 >>> 9 << 4) + 14] = Math.floor(s / 4294967296),
+                this._data.words[(e + 64 >>> 9 << 4) + 15] = s,
+                this._data.sigBytes = this._data.words.length * 4,
+                this._process(),
+                this._hash
+        }
+        _doProcessBlock(t, s) {
+            const e = this._hash.words;
+            let i = e[0]
+                , n = e[1]
+                , u = e[2]
+                , o = e[3]
+                , w = e[4]
+                , a = e[5]
+                , y = e[6]
+                , v = e[7];
+            for (let f = 0; f < 64; f++) {
+                if (f < 16)
+                    N[f] = t[s + f] | 0;
+                else {
+                    const D = N[f - 15]
+                        , k = (D << 25 | D >>> 7) ^ (D << 14 | D >>> 18) ^ D >>> 3
+                        , P = N[f - 2]
+                        , F = (P << 15 | P >>> 17) ^ (P << 13 | P >>> 19) ^ P >>> 10;
+                    N[f] = k + N[f - 7] + F + N[f - 16]
+                }
+                const O = w & a ^ ~w & y
+                    , z = i & n ^ i & u ^ n & u
+                    , m = (i << 30 | i >>> 2) ^ (i << 19 | i >>> 13) ^ (i << 10 | i >>> 22)
+                    , G = (w << 26 | w >>> 6) ^ (w << 21 | w >>> 11) ^ (w << 7 | w >>> 25)
+                    , L = v + G + O + _t[f] + N[f]
+                    , V = m + z;
+                v = y,
+                    y = a,
+                    a = w,
+                    w = o + L | 0,
+                    o = u,
+                    u = n,
+                    n = i,
+                    i = L + V | 0
+            }
+            e[0] = e[0] + i | 0,
+                e[1] = e[1] + n | 0,
+                e[2] = e[2] + u | 0,
+                e[3] = e[3] + o | 0,
+                e[4] = e[4] + w | 0,
+                e[5] = e[5] + a | 0,
+                e[6] = e[6] + y | 0,
+                e[7] = e[7] + v | 0
+        }
+        _append(t) {
+            typeof t == "string" && (t = E.fromUtf8(t)),
+                this._data.concat(t),
+                this._nDataBytes += t.sigBytes
+        }
+        _process(t) {
+            let s, e = this._data.sigBytes / 64;
+            t ? e = Math.ceil(e) : e = Math.max((e | 0) - this._minBufferSize, 0);
+            const i = e * 16
+                , n = Math.min(i * 4, this._data.sigBytes);
+            if (i) {
+                for (let u = 0; u < i; u += 16)
+                    this._doProcessBlock(this._data.words, u);
+                s = this._data.words.splice(0, i),
+                    this._data.sigBytes -= n
+            }
+            return new E(s, n)
+        }
+    }
+    class E {
+        constructor(t, s) {
+            d(this, "words");
+            d(this, "sigBytes");
+            t = this.words = t || [],
+                this.sigBytes = s === void 0 ? t.length * 4 : s
+        }
+        static fromUtf8(t) {
+            const s = unescape(encodeURIComponent(t))
+                , e = s.length
+                , i = [];
+            for (let n = 0; n < e; n++)
+                i[n >>> 2] |= (s.charCodeAt(n) & 255) << 24 - n % 4 * 8;
+            return new E(i, e)
+        }
+        toBase64() {
+            const t = [];
+            for (let s = 0; s < this.sigBytes; s += 3) {
+                const e = this.words[s >>> 2] >>> 24 - s % 4 * 8 & 255
+                    , i = this.words[s + 1 >>> 2] >>> 24 - (s + 1) % 4 * 8 & 255
+                    , n = this.words[s + 2 >>> 2] >>> 24 - (s + 2) % 4 * 8 & 255
+                    , u = e << 16 | i << 8 | n;
+                for (let o = 0; o < 4 && s * 8 + o * 6 < this.sigBytes * 8; o++)
+                    t.push(kt.charAt(u >>> 6 * (3 - o) & 63))
+            }
+            return t.join("")
+        }
+        concat(t) {
+            if (this.words[this.sigBytes >>> 2] &= 4294967295 << 32 - this.sigBytes % 4 * 8,
+                this.words.length = Math.ceil(this.sigBytes / 4),
+                this.sigBytes % 4)
+                for (let s = 0; s < t.sigBytes; s++) {
+                    const e = t.words[s >>> 2] >>> 24 - s % 4 * 8 & 255;
+                    this.words[this.sigBytes + s >>> 2] |= e << 24 - (this.sigBytes + s) % 4 * 8
+                }
+            else
+                for (let s = 0; s < t.sigBytes; s += 4)
+                    this.words[this.sigBytes + s >>> 2] = t.words[s >>> 2];
+            this.sigBytes += t.sigBytes
+        }
+    }
+    function Bt(h) {
+        return new bt().finalize(h).toBase64()
+    }
+    // 通过ajax获取加密内容
+    // 适用于未显式给出链接的资源（如"立即下载"）
+    async function getEncryptedData(id) {
+        let url = `https://www.vikacg.com/external/fastdown?id=${id}`;
+        const resp = await fetch(url, {
+            method: 'GET',
+            credentials: 'same-origin'
+        });
+        let html = await resp.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const script = doc.querySelector('script#\\__NUXT_DATA__[type="application/json"][data-ssr="true"]');
+        if (script && script.textContent) {
+            try {
+                const jsonData = JSON.parse(script.textContent);
+                const key = "$f" + Bt(`['$Y_-N4Q-pUC','/api/fastdown/v1/getID?paged=${id}&key=X28JxXeMvRmjHQZyTDEN','GET',undefined]`);
+                const index = jsonData.findIndex(item => item[key]);
+
+                if (index != -1) {
+                    return jsonData[index + 1];
+                }
+                else {
+                    console.error('解析失败');
+                }
+            }
+            catch (e) {
+                console.error('解析失败: ', e);
+            }
+        }
+        else {
+            console.error('解析失败');
+        }
+    }
+    const targets = [];
+    function hook(targets) {
+        const open = XMLHttpRequest.prototype.open; const send = XMLHttpRequest.prototype.send; XMLHttpRequest.prototype.open = function (method, url) { this._url = url; return open.apply(this, arguments); };
+        XMLHttpRequest.prototype.send = function (body) {
+            const xhr = this;
+            const onreadystatechange = xhr.onreadystatechange;
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status >= 200 && xhr.status < 300) {
+                    for (let target of targets) {
+                        if (xhr._url.includes(target.a)) {
+                            target.b(xhr._url, xhr.responseText);
+                        }
+                    }
+                }
+                if (onreadystatechange) {
+                    onreadystatechange.apply(this, arguments);
+                }
+            };
+            return send.apply(xhr, arguments);
+        };
+        hook.reset = () => {
+            XMLHttpRequest.prototype.open = open;
+            XMLHttpRequest.prototype.send = send;
+        }
+    }
+    const ll = /https?:\/\/[^\s<>"{}|\\^`[\]]+/i;
+    const lll = /.*?\((.*?)\)/;
+    function respHandler(a, b) {
+        const c = JSON.parse(b);
+        if (c.code == 200) {
+            if (c.data.hidden_content.locked) {
+                targets[0] = {a: '/getPostHiddenContent', b: respHandler};
+                return;
+            }
+            const d = c.data.hidden_content.content;
+            for (let e of d) {
+                const f = e.match(ll)?.[0];
+                I.push({
+                    i:f,
+                    iiii(ii){
+                        const iii=ii.replace(lll, '$1');if(iii && f.includes(iii)) {this.iii=createNode();this.iii.href=f;return true;}},});}setTimeout(() => {runner();hook.reset();}, defaultDelay * 2);};
+    }
+    targets.push({a:'/getPost', b: respHandler});
+    hook(targets);
 })();

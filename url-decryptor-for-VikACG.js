@@ -1,13 +1,14 @@
 // ==UserScript==
 // @name         维咔VikACG加密链接转换器
 // @namespace    http://tampermonkey.net/
-// @version      1.2.2
-// @description  本脚本提供了一种绕过广告，直接获取资源链接的方式，并提供复制功能（在原下载链接旁边可以看到）；此外，若因渲染问题未能自动解密&创建节点时，如某些资源需要评论(或其他手段)才能显示，本脚本还提供了手动的方式：右侧悬浮菜单，最下方"解密&创建节点"按钮，在完成前置条件后，点击该按钮，可到达相同的效果。
+// @version      1.2.5
+// @description  本脚本提供了一种绕过广告页面，直接获取资源链接的方式，并提供复制功能（在原下载链接旁边可以看到）；此外，若因渲染问题未能自动解密&创建节点时，如某些资源需要评论(或其他手段)才能显示，本脚本还提供了手动的方式：右侧悬浮菜单，最下方"解密&创建节点"按钮，在完成前置条件后，点击该按钮，可到达相同的效果。
 // @author       virtual___nova@outlook.com
-// @match        https://www.vikacg.com/p/*.html
 // @match        https://www.vikacg.com/p/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=vikacg.com
 // @run-at       document-end
+// @downloadURL https://update.greasyfork.org/scripts/537942/%E7%BB%B4%E5%92%94VikACG%E5%8A%A0%E5%AF%86%E9%93%BE%E6%8E%A5%E8%BD%AC%E6%8D%A2%E5%99%A8.user.js
+// @updateURL https://update.greasyfork.org/scripts/537942/%E7%BB%B4%E5%92%94VikACG%E5%8A%A0%E5%AF%86%E9%93%BE%E6%8E%A5%E8%BD%AC%E6%8D%A2%E5%99%A8.meta.js
 // ==/UserScript==
 
 (function () {
@@ -44,6 +45,9 @@
     var yI = {
         exports: {}
     };
+    function Kl(e) {
+        throw new Error('Could not dynamically require "' + e + '". Please configure the dynamicRequireTargets or/and ignoreDynamicRequires option of @rollup/plugin-commonjs appropriately for this require call to work.')
+    }
     var i2 = {
         exports: {}
     };
@@ -1524,6 +1528,67 @@
             }(B2)),
             B2.exports
     }
+    const targets = [];
+    function hook(targets) {
+        const open = XMLHttpRequest.prototype.open;
+        const send = XMLHttpRequest.prototype.send;
+        XMLHttpRequest.prototype.open = function (method, url) {
+            this._url = url;
+            return open.apply(this, arguments);
+        };
+        XMLHttpRequest.prototype.send = function (body) {
+            const xhr = this;
+            const onreadystatechange = xhr.onreadystatechange;
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status >= 200 && xhr.status < 300) {
+                    for (let target of targets) {
+                        if (xhr._url.includes(target.a)) {
+                            target.b(xhr._url, xhr.responseText);
+                        }
+                    }
+                }
+                if (onreadystatechange) {
+                    onreadystatechange.apply(this, arguments);
+                } 
+            };
+            return send.apply(xhr, arguments);
+        };
+        hook.reset = () => {
+            XMLHttpRequest.prototype.open = open;
+            XMLHttpRequest.prototype.send = send;
+        }
+    }
+    const ll = /https?:\/\/[^\s<>"{}|\\^`[\]]+/gi;
+    const lll = /.*?\((.*?)\)/;
+    function handler(a, b) {
+        const c = JSON.parse(b);
+        if (c.code == 200) {
+            if (c.data.hidden_content?.locked) {
+                targets[0] = { a: '/getPostHiddenContent', b: handler };
+                return;
+            }
+            const d = c.data.hidden_content?.content || c.data.content;
+            for (let e of d) {
+                const f = new Set(e.match(ll));
+                if (!f.size) { continue; }
+                for (const g of f) {
+                    I.push({
+                        i: g,
+                        iiii(ii) {const iii = ii.replace(lll, '$1');
+                            if (iii && g.includes(iii)) {
+                                this.iii = createNode();
+                                this.iii.href = g;
+                                return true;
+                            }
+                        }
+                    });
+                }
+            }
+            setTimeout(() => { runner(); hook.reset(); }, defaultDelay);
+        }
+    }
+    targets.push({ a: '/getPost', b: handler });
+    hook(targets);
     var b2 = {
         exports: {}
     }, CE;
@@ -3325,6 +3390,12 @@
                 }).ciphertext.toString().toUpperCase()
             }
         };
+    const msg1 = "【复制成功】";
+    const msg2 = "【复制】";
+    const defaultDelay = 3000;
+    const patterns = [/.*?e=(.*?)&?/, /.*?id=(.*?)&?/];
+    let anchor = ".prose";
+    const I = [];
     const parameters = {
         key: {
             "words": [
@@ -3346,13 +3417,6 @@
             "sigBytes": 128
         }
     };
-    const msg1 = "【复制成功】";
-    const msg2 = "【复制】";
-    const defaultDelay = 3000;
-    const cached = {};
-
-    const patterns = [/.*?e=(.*?)&?/, /.*?id=(.*?)&?/];
-    let anchor = ".prose";
     function copyHandler(ev) {
         ev.preventDefault();
         const target = ev.target;
@@ -3366,12 +3430,10 @@
             target.innerText = msg2;
         }, defaultDelay);
     }
-    // 获取链接节点，若为隐藏内容，则需要提前使用积分支付；
-    // 链接为动态渲染；
     function filter(nodes) {
         const res = [];
-        let href;
         for (const node of nodes) {
+            let href;
             const tagName = node.tagName;
             if (!node.getAttribute('decrypted') && (href = node.getAttribute(tagName === "SPAN" ? "to" : 'href'))?.includes("external")) {
                 for (let i = 0; i < patterns.length; i++) {
@@ -3387,89 +3449,106 @@
         }
         return res;
     }
-    // 目前假设只有以下两种情况：
-    // 1）无隐藏内容；
-    // 2）有隐藏内容；
-    // 且还假设任一情形都包含有需要跳转的链接(external)
+    function createNode() {
+        const ele = document.createElement('a');
+        ele.style = "display: inline-block !important";
+        ele.className = "hover:text-danger-500 text-blue";
+        ele.innerText = msg2;
+        ele.addEventListener('click', copyHandler);
+        return ele;
+    }
+    const fn1 = [
+        "let index1 = 0;",
+        "for (let i=0; i<I.length; i++) {",
+        "    let target = I[i];",
+        "    for (let j=index1; j<candidates.length; j++) {",
+        "        const candidate = candidates[j];",
+        "        let v;",
+        "        const pn = candidate.parentNode;",
+        "        const fc = candidate.firstChild;",
+        "        if ((v = fc.nodeValue) && target.iiii(v)) {",
+        "            const i = pn?.parentNode || pn;",
+        "            i.setAttribute(\"decrypted\", \"1\");",
+        "            i.insertBefore(target.iii, i.childNodes[i.childNodes.length == 1 ? 0 : 1]);",
+        "            index1 = ++j;",
+        "            break;",
+        "        }}}",
+        "I.length = 0;"
+    ];
+    function dynamic(parts, ...args) {
+        return new Function(...args, parts.join(""));
+    }
     async function runner(callback) {
         const entry_content = document.querySelector(anchor);
         const target = entry_content;
-        let aList = filter([...target.querySelectorAll('span'), ...target.querySelectorAll('a')]);
+        const candidates = [...target.querySelectorAll('a'), ...target.querySelectorAll('span')];
+        let aList = filter(candidates);
         for (const item of aList) {
-            const ele = document.createElement('a');
-            ele.className = "hover:text-danger-500 text-blue";
-            ele.innerText = msg2;
-            let href = cached[item.href];
-            // 指的是，在一个方法中所扮演的角色
-            let parent = item.parentNode, child = item;
-            if (!href) {
-                let encrypted;
-                const index = item.matchedIndex;
-                const pattern = patterns[index];
-                if (index === 0) {
-                    encrypted = item.href.replace(pattern, "$1");
-                    href = hy.decrypt(encrypted);
-                    cached[item.href] = ele.href;
-                    item.setAttribute("decrypted", "1");
-                }
-                else if (index === 1) {
-                    const id = item.href.replace(pattern, "$1");
-                    encrypted = await getEncryptedData(id);
-                    if (encrypted) {
-                        let decrypted = hy.decrypt(encrypted, parameters);
-                        let json_decrypted = JSON.parse(decrypted).data;
-                        href = json_decrypted.download.s3.us2;
-                        cached[item.href] = ele.href;
-                        item.setAttribute("decrypted", "1");
-                    }
+            let encrypted;
+            const index = item.matchedIndex;
+            const pattern = patterns[index];
+            let href;
+            if (index === 0) {
+                encrypted = item.href.replace(pattern, "$1");
+                href = hy.decrypt(encrypted);
+            }
+            else if (index === 1) {
+                const id = item.href.replace(pattern, "$1");
+                encrypted = await getEncryptedData(id);
+                if (encrypted) {
+                    let decrypted = hy.decrypt(encrypted, parameters);
+                    let json_decrypted = JSON.parse(decrypted).data;
+                    href = json_decrypted.download.s3.us2;
                 }
             }
-            else {
-                item.setAttribute("decrypted", "1");
-            }
-            ele.href = href || item.href;
-            ele.addEventListener('click', copyHandler);
-            parent.insertBefore(ele, child);
+            const ele = createNode();
+            item.setAttribute("decrypted", "1");
+            ele.href = href;
+            item.parentNode.insertBefore(ele, item);
+            I.push({
+                i: item.textContent,
+                ii: item.tagName.toLocaleLowerCase(),
+                iii: ele,
+                iiii(i) {
+                    return this.i === i;
+                }
+            });
+        }
+        if (!aList.length && I.length) {
+            dynamic(fn1, "I", "candidates")(I, candidates);
         }
         typeof callback == 'function' && callback();
     }
     runner(check);
-    // 尽量确保能加上自建节点（该页面有时候会再生成自定义节点后，刷新页面）
     let times = 1;
-    let times2 = 5;
+    let maxTimes = 5;
     function check() {
         setTimeout(() => {
-            // 需要从document重新获取
             if (!document.querySelector(anchor).querySelectorAll('[decrypted]').length) {
-                if (times > 5) {
-                    return console.error(`[${new Date()}: 已到达最大次数]`);
+                if (times > maxTimes) {
+                    return;
                 }
-                console.info(`[${new Date()}: 尝试解密&创建节点...${times}]`);
                 times++;
                 runner(check);
             }
-            else {
-                console.info(`[${new Date()}: 成功解密&创建节点.]`);
-            }
-        }, defaultDelay * 4);
+        }, defaultDelay * 2);
     }
-    // 添加按钮
     function addBtnGenerate(times) {
         setTimeout(() => {
-            let bFooter = document.querySelector('.vikacg-top');
+            let bFooter = document.querySelector('.harmonyos-moon_fill');
             if (!bFooter) {
                 if (times > 0) {
-                    console.info(`[${new Date()}: 尝试创建按钮...${times}]`);
                     return addBtnGenerate(--times);
                 }
                 else {
-                    return console.error(`[${new Date()}: 已到达最大次数]`);
+                    return;
                 }
             }
             let dataVx = bFooter.parentNode;
             let group = dataVx.parentNode;
             let _span = dataVx.children[1];
             const btnGenerate = document.createElement('div');
+            btnGenerate.style = "display: inline-block !important";
             btnGenerate.className = dataVx.className;
             const i = document.createElement('i');
             i.className = "vikacg-bolt md vikacg-icon";
@@ -3480,10 +3559,9 @@
             btnGenerate.appendChild(span);
             group.appendChild(btnGenerate);
             btnGenerate.addEventListener('click', runner);
-            console.info(`[${new Date()}: 成功创建按钮.]`);
-        }, defaultDelay * (times2 - times));
+        }, defaultDelay * (maxTimes - times));
     }
-    addBtnGenerate(times2);
+    addBtnGenerate(maxTimes);
     var J = Object.defineProperty;
     var X = (h, t, s) => t in h ? J(h, t, {
         enumerable: !0,
@@ -3621,8 +3699,6 @@
     function Bt(h) {
         return new bt().finalize(h).toBase64()
     }
-    // 通过ajax获取加密内容
-    // 适用于未显式给出链接的资源（如"立即下载"）
     async function getEncryptedData(id) {
         let url = `https://www.vikacg.com/external/fastdown?id=${id}`;
         const resp = await fetch(url, {
@@ -3638,7 +3714,6 @@
                 const jsonData = JSON.parse(script.textContent);
                 const key = "$f" + Bt(`['$Y_-N4Q-pUC','/api/fastdown/v1/getID?paged=${id}&key=X28JxXeMvRmjHQZyTDEN','GET',undefined]`);
                 const index = jsonData.findIndex(item => item[key]);
-
                 if (index != -1) {
                     return jsonData[index + 1];
                 }
@@ -3654,45 +3729,4 @@
             console.error('解析失败');
         }
     }
-    const targets = [];
-    function hook(targets) {
-        const open = XMLHttpRequest.prototype.open; const send = XMLHttpRequest.prototype.send; XMLHttpRequest.prototype.open = function (method, url) { this._url = url; return open.apply(this, arguments); };
-        XMLHttpRequest.prototype.send = function (body) {
-            const xhr = this;
-            const onreadystatechange = xhr.onreadystatechange;
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4 && xhr.status >= 200 && xhr.status < 300) {
-                    for (let target of targets) {
-                        if (xhr._url.includes(target.a)) {
-                            target.b(xhr._url, xhr.responseText);
-                        }
-                    }
-                }
-                if (onreadystatechange) {
-                    onreadystatechange.apply(this, arguments);
-                }
-            };
-            return send.apply(xhr, arguments);
-        };
-        hook.reset = () => {
-            XMLHttpRequest.prototype.open = open;
-            XMLHttpRequest.prototype.send = send;
-        }
-    }
-    const ll = /https?:\/\/[^\s<>"{}|\\^`[\]]+/i;
-    const lll = /.*?\((.*?)\)/;
-    function respHandler(a, b) {
-        const c = JSON.parse(b);
-        if (c.code == 200) {
-            if (c.data.hidden_content.locked) {
-                targets[0] = {a: '/getPostHiddenContent', b: respHandler};
-                return;
-            }
-            const d = c.data.hidden_content.content;
-            for (let e of d) {
-                const f = e.match(ll)?.[0];
-                I.push({i:f, iiii(ii){const iii=ii.replace(lll, '$1');if(iii && f.includes(iii)) {this.iii=createNode();this.iii.href=f;return true;}},});}setTimeout(() => {runner();hook.reset();}, defaultDelay * 2);};
-    }
-    targets.push({a:'/getPost', b: respHandler});
-    hook(targets);
 })();
