@@ -1528,67 +1528,6 @@
             }(B2)),
             B2.exports
     }
-    const targets = [];
-    function hook(targets) {
-        const open = XMLHttpRequest.prototype.open;
-        const send = XMLHttpRequest.prototype.send;
-        XMLHttpRequest.prototype.open = function (method, url) {
-            this._url = url;
-            return open.apply(this, arguments);
-        };
-        XMLHttpRequest.prototype.send = function (body) {
-            const xhr = this;
-            const onreadystatechange = xhr.onreadystatechange;
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4 && xhr.status >= 200 && xhr.status < 300) {
-                    for (let target of targets) {
-                        if (xhr._url.includes(target.a)) {
-                            target.b(xhr._url, xhr.responseText);
-                        }
-                    }
-                }
-                if (onreadystatechange) {
-                    onreadystatechange.apply(this, arguments);
-                } 
-            };
-            return send.apply(xhr, arguments);
-        };
-        hook.reset = () => {
-            XMLHttpRequest.prototype.open = open;
-            XMLHttpRequest.prototype.send = send;
-        }
-    }
-    const ll = /https?:\/\/[^\s<>"{}|\\^`[\]]+/gi;
-    const lll = /.*?\((.*?)\)/;
-    function handler(a, b) {
-        const c = JSON.parse(b);
-        if (c.code == 200) {
-            if (c.data.hidden_content?.locked) {
-                targets[0] = { a: '/getPostHiddenContent', b: handler };
-                return;
-            }
-            const d = c.data.hidden_content?.content || c.data.content;
-            for (let e of d) {
-                const f = new Set(e.match(ll));
-                if (!f.size) { continue; }
-                for (const g of f) {
-                    I.push({
-                        i: g,
-                        iiii(ii) {const iii = ii.replace(lll, '$1');
-                            if (iii && g.includes(iii)) {
-                                this.iii = createNode();
-                                this.iii.href = g;
-                                return true;
-                            }
-                        }
-                    });
-                }
-            }
-            setTimeout(() => { runner(); hook.reset(); }, defaultDelay);
-        }
-    }
-    targets.push({ a: '/getPost', b: handler });
-    hook(targets);
     var b2 = {
         exports: {}
     }, CE;
@@ -2741,7 +2680,6 @@
         })
     }
     )(yI);
-
     var qme = yI.exports;
     const Vr = Su(qme)
     , Uf = {
@@ -2773,12 +2711,92 @@
     const defaultDelay = 3000;
     const patterns = [/.*?e=(.*?)&?/, /.*?id=(.*?)&?/];
     let anchor = ".prose";
-    const I = [];
+    const I = {};
     const cached = {};
     const keys = {
-        key: Vr.enc.Utf8.parse("hxwixhwizmwwmzaoq"),
-        iv: Vr.enc.Utf8.parse("hxwiwzsaamzaoq")
+        // key: Vr.enc.Utf8.parse("hxwixhwizmwwmzaoq"),
+        // iv: Vr.enc.Utf8.parse("hxwiwzsaamzaoq"),
+        key: {
+            "words": [
+                1752725353,
+                2020112233,
+                2053994359,
+                1836736879,
+                1895825408
+            ],
+            "sigBytes": 128
+        },
+        iv: {
+            "words": [
+                1752725353,
+                2004513633,
+                1634564705,
+                1869676544
+            ],
+            "sigBytes": 128
+        }
     };
+    const targets = [];
+    const ll = /https?:\/\/[^\s<>"{}|\\^`[\]]+/gi;
+    const lll = /.*?\((.*?)\)/;
+    function hook(targets) {
+        const open = XMLHttpRequest.prototype.open;
+        const send = XMLHttpRequest.prototype.send;
+        XMLHttpRequest.prototype.open = function (method, url) {
+            this._url = url;
+            open.apply(this, arguments);
+        };
+        XMLHttpRequest.prototype.send = function (body) {
+            const xhr = this;
+            const onreadystatechange = xhr.onreadystatechange;
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status >= 200 && xhr.status < 300) {
+                    for (let target of targets) {
+                        if (xhr._url.includes(target.a)) {
+                            target.b(xhr._url, xhr.responseText);
+                        }
+                    }
+                }
+                if (onreadystatechange) {
+                    onreadystatechange.apply(this, arguments);
+                } 
+            };
+            send.apply(xhr, arguments);
+        };
+        hook.reset = () => {
+            XMLHttpRequest.prototype.open = open;
+            XMLHttpRequest.prototype.send = send;
+        }
+    }
+    function handler(a, b) {
+        const c = JSON.parse(b);
+        if (c.code == 200) {
+            if (c.data.hidden_content?.locked) {
+                targets[0] = { a: '/getPostHiddenContent', b: handler };
+                return;
+            }
+            const d = c.data.hidden_content?.content || c.data.content;
+            for (let e of d) {
+                const f = new Set(e.match(ll));
+                if (!f.size) { continue; }
+                for (const g of f) {
+                    I.push({
+                        i: g,
+                        iiii(ii) {const iii = ii.replace(lll, '$1');
+                            if (iii && g.includes(iii)) {
+                                this.iii = createNode();
+                                this.iii.href = g;
+                                return true;
+                            }
+                        }
+                    });
+                }
+            }
+            setTimeout(() => { runner(); hook.reset(); }, defaultDelay);
+        }
+    }
+    targets.push({ a: '/getPost', b: handler });
+    hook(targets);
     function copyHandler(ev) {
         ev.preventDefault();
         const target = ev.target;
@@ -2819,26 +2837,25 @@
         ele.addEventListener('click', copyHandler);
         return ele;
     }
-    const fn1 = [
-        "let index1 = 0;",
-        "for (let i=0; i<I.length; i++) {",
-        "    let target = I[i];",
-        "    for (let j=index1; j<candidates.length; j++) {",
-        "        const candidate = candidates[j];",
-        "        let v;",
-        "        const pn = candidate.parentNode;",
-        "        const fc = candidate.firstChild;",
-        "        if ((v = fc.nodeValue) && target.iiii(v)) {",
-        "            const i = pn?.parentNode || pn;",
-        "            i.setAttribute(\"decrypted\", \"1\");",
-        "            i.insertBefore(target.iii, i.childNodes[i.childNodes.length == 1 ? 0 : 1]);",
-        "            index1 = ++j;",
-        "            break;",
-        "        }}}",
-        "I.length = 0;"
-    ];
-    function dynamic(parts, ...args) {
-        return new Function(...args, parts.join(""));
+    function fn1(I, candidates) {
+        let index1 = 0;
+        for (let i=0; i<I.length; i++) {
+            let target = I[i];
+            for (let j=index1; j<candidates.length; j++) {
+                const candidate = candidates[j];
+                let v;
+                const pn = candidate.parentNode;
+                const fc = candidate.firstChild;
+                if ((v = fc.nodeValue) && target.iiii(v)) {
+                    const i = pn?.parentNode || pn;
+                    i.setAttribute("decrypted", "1");
+                    i.insertBefore(target.iii, i.childNodes[i.childNodes.length == 1 ? 0 : 1]);
+                    index1 = ++j;
+                    break;
+                }
+            }
+        }
+        I.length = 0;
     }
     async function runner(callback) {
         const entry_content = document.querySelector(anchor);
@@ -2849,8 +2866,9 @@
             let encrypted;
             const index = item.matchedIndex;
             const pattern = patterns[index];
-            let href = cached[item.href] || "";
+            let hrefObj = cached[item.href] || null;
             const ele = createNode();
+            let href = hrefObj ? hrefObj.a : "";
             if (!href) {
                 if (index === 0) {
                     encrypted = item.href.replace(pattern, "$1");
@@ -2865,22 +2883,31 @@
                         href = json_decrypted.download.s3.us2;
                     }
                 }
-                href && (cached[item.href] = href);
+                if (!href) {
+                    throw new Error('无法解析链接');
+                }
+                cached[item.href] = {
+                    a: href,
+                    b: encrypted
+                };
             }
             item.setAttribute("decrypted", "1");
             ele.href = href;
+            ele.id = hrefObj ? hrefObj.b : encrypted;
             item.parentNode.insertBefore(ele, item);
-            I.push({
+            I[href] = {
                 i: item.textContent,
                 ii: item.tagName.toLocaleLowerCase(),
                 iii: ele,
                 iiii(i) {
-                    return this.i === i;
+                    return this.i === i && document.getElementById(this.iii.id) == null;
                 }
-            });
+            };
         }
-        if (!aList.length && I.length) {
-            dynamic(fn1, "I", "candidates")(I, candidates);
+        let II;
+        if (!aList.length && (II = Object.values(I)).length) {
+            // dynamic(fn1, "I", "candidates")(I, candidates);
+            fn1(II, candidates);
         }
         typeof callback == 'function' && callback();
     }
@@ -2898,35 +2925,6 @@
             }
         }, defaultDelay * 2);
     }
-    function addBtnGenerate(times) {
-        setTimeout(() => {
-            let bFooter = document.querySelector('.harmonyos-moon_fill');
-            if (!bFooter) {
-                if (times > 0) {
-                    return addBtnGenerate(--times);
-                }
-                else {
-                    return;
-                }
-            }
-            let dataVx = bFooter.parentNode;
-            let group = dataVx.parentNode;
-            let _span = dataVx.children[1];
-            const btnGenerate = document.createElement('div');
-            btnGenerate.style = "display: inline-block !important";
-            btnGenerate.className = dataVx.className;
-            const i = document.createElement('i');
-            i.className = "vikacg-bolt md vikacg-icon";
-            const span = document.createElement('span');
-            span.innerText = "解密&创建节点";
-            span.className = _span.className;
-            btnGenerate.appendChild(i);
-            btnGenerate.appendChild(span);
-            group.appendChild(btnGenerate);
-            btnGenerate.addEventListener('click', runner);
-        }, defaultDelay * (maxTimes - times));
-    }
-    addBtnGenerate(maxTimes);
     var J = Object.defineProperty;
     var X = (h, t, s) => t in h ? J(h, t, {
         enumerable: !0,
@@ -3094,4 +3092,62 @@
             console.error('解析失败');
         }
     }
+
+    // 隐藏广告拦截器提示（每次都弹出，挺烦）；
+    // 以下需要配合adBlock使用；
+    const classes = "pub_300x250 pub_300x250m pub_728x90 text-ad textAd text_ad text_ads text-ads text-ad-links ad-text adSense adBlock adContent adBanner".split(" ");
+    const hookSetAttribute = () => {
+        const setAttribute = Element.prototype.setAttribute;
+        Element.prototype.setAttribute = function (name, value) {
+            if (name === 'class') {
+                if (value) {
+                    let hits = 0;
+                    for (let i=0; i<classes.length; i++) {
+                        if (value.includes(classes[i])) {
+                            hits++;
+                        }
+
+                        if (hits > 6) {
+                            break;
+                        }
+
+                        if (hits == 0 && i>6) {
+                            break;
+                        }
+                    }
+                    if (hits > 6) {
+                        // 什么都不做
+                        return;
+                    }
+                }
+            }
+            return setAttribute.call(this, name, value);
+        };
+        hookSetAttribute.reset = () => {
+            Element.prototype.setAttribute = setAttribute;
+        }
+    };
+    function hookQuerySelector() {
+        const querySelector = Element.prototype.querySelector;
+        Element.prototype.querySelector = function (selector) {
+            if (selector == 'img') {
+                // 202511；以下判断极有可能是广告
+                if (this.tagName == 'A' && (this.className || '').includes('w-full') && this.firstChild.tagName == 'IMG') {
+                    throw new Error('中断条件判断');
+                }
+            }
+
+            return querySelector.call(this, selector);
+        }
+
+        hookQuerySelector.reset = () => {
+            Element.prototype.querySelector = querySelector;
+        }
+    }
+    hookSetAttribute();
+    hookQuerySelector();
+    setTimeout(() => {
+        hookSetAttribute.reset();
+        hookQuerySelector.reset();
+    }, defaultDelay * 3);
 })();
