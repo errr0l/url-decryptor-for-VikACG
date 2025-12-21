@@ -2773,23 +2773,28 @@
         if (c.code == 200) {
             if (c.data.hidden_content?.locked) {
                 targets[0] = { a: '/getPostHiddenContent', b: handler };
-                return;
+                // 如果runner没有匹配到时，往下走
+                if (Object.keys(I).length) {
+                    return;
+                }
             }
-            const d = c.data.hidden_content?.content || c.data.content;
+            const content = c.data.hidden_content?.content;
+            const d = content.length ? content : c.data.content;
             for (let e of d) {
                 const f = new Set(e.match(ll));
                 if (!f.size) { continue; }
                 for (const g of f) {
-                    I.push({
+                    I[g] = {
                         i: g,
-                        iiii(ii) {const iii = ii.replace(lll, '$1');
+                        iiii(ii) {
+                            const iii = ii.replace(lll, '$1');
                             if (iii && g.includes(iii)) {
                                 this.iii = createNode();
                                 this.iii.href = g;
                                 return true;
                             }
                         }
-                    });
+                    };
                 }
             }
             setTimeout(() => { runner(); hook.reset(); }, defaultDelay);
@@ -2838,19 +2843,22 @@
         return ele;
     }
     function fn1(I, candidates) {
-        let index1 = 0;
         for (let i=0; i<I.length; i++) {
             let target = I[i];
-            for (let j=index1; j<candidates.length; j++) {
+            let index1 = i;
+            for (let j=target.nextIndex || 0; j<candidates.length; j++) {
                 const candidate = candidates[j];
-                let v;
-                const pn = candidate.parentNode;
-                const fc = candidate.firstChild;
-                if ((v = fc.nodeValue) && target.iiii(v)) {
-                    const i = pn?.parentNode || pn;
+                if (!candidate.getAttribute("data")) {
+                    continue;
+                }
+                let v = candidate.innerText;
+                if (v && target.iiii(v)) {
+                    const i = candidate.children.length ? candidate : candidate.parentNode;
                     i.setAttribute("decrypted", "1");
                     i.insertBefore(target.iii, i.childNodes[i.childNodes.length == 1 ? 0 : 1]);
-                    index1 = ++j;
+                    if (I[index1+1]) {
+                        I[index1+1].nextIndex = ++j;
+                    }
                     break;
                 }
             }
@@ -2859,6 +2867,10 @@
     }
     async function runner(callback) {
         const entry_content = document.querySelector(anchor);
+        if (!entry_content) {
+            typeof callback == 'function' && callback();;
+            return;
+        }
         const target = entry_content;
         const candidates = [...target.querySelectorAll('a'), ...target.querySelectorAll('span')];
         let aList = filter(candidates);
@@ -2904,20 +2916,20 @@
                 }
             };
         }
-        let II;
-        if (!aList.length && (II = Object.values(I)).length) {
-            // dynamic(fn1, "I", "candidates")(I, candidates);
+        let II, III;
+        if (III = (II = Object.values(I)).length && aList.length !== III) {
             fn1(II, candidates);
         }
         typeof callback == 'function' && callback();
     }
     runner(check);
     let times = 1;
-    let maxTimes = 5;
+    let maxTimes = 10;
     function check() {
         setTimeout(() => {
             if (!document.querySelector(anchor).querySelectorAll('[decrypted]').length) {
                 if (times > maxTimes) {
+                    console.error('未匹配到锚点');
                     return;
                 }
                 times++;
@@ -3092,62 +3104,61 @@
             console.error('解析失败');
         }
     }
-
     // 隐藏广告拦截器提示（每次都弹出，挺烦）；
     // 以下需要配合adBlock使用；
-    const classes = "pub_300x250 pub_300x250m pub_728x90 text-ad textAd text_ad text_ads text-ads text-ad-links ad-text adSense adBlock adContent adBanner".split(" ");
-    const hookSetAttribute = () => {
-        const setAttribute = Element.prototype.setAttribute;
-        Element.prototype.setAttribute = function (name, value) {
-            if (name === 'class') {
-                if (value) {
-                    let hits = 0;
-                    for (let i=0; i<classes.length; i++) {
-                        if (value.includes(classes[i])) {
-                            hits++;
-                        }
+    // const classes = "pub_300x250 pub_300x250m pub_728x90 text-ad textAd text_ad text_ads text-ads text-ad-links ad-text adSense adBlock adContent adBanner".split(" ");
+    // const hookSetAttribute = () => {
+    //     const setAttribute = Element.prototype.setAttribute;
+    //     Element.prototype.setAttribute = function (name, value) {
+    //         if (name === 'class') {
+    //             if (value) {
+    //                 let hits = 0;
+    //                 for (let i=0; i<classes.length; i++) {
+    //                     if (value.includes(classes[i])) {
+    //                         hits++;
+    //                     }
 
-                        if (hits > 6) {
-                            break;
-                        }
+    //                     if (hits > 6) {
+    //                         break;
+    //                     }
 
-                        if (hits == 0 && i>6) {
-                            break;
-                        }
-                    }
-                    if (hits > 6) {
-                        // 什么都不做
-                        return;
-                    }
-                }
-            }
-            return setAttribute.call(this, name, value);
-        };
-        hookSetAttribute.reset = () => {
-            Element.prototype.setAttribute = setAttribute;
-        }
-    };
-    function hookQuerySelector() {
-        const querySelector = Element.prototype.querySelector;
-        Element.prototype.querySelector = function (selector) {
-            if (selector == 'img') {
-                // 202511；以下判断极有可能是广告
-                if (this.tagName == 'A' && (this.className || '').includes('w-full') && this.firstChild.tagName == 'IMG') {
-                    throw new Error('中断条件判断');
-                }
-            }
+    //                     if (hits == 0 && i>6) {
+    //                         break;
+    //                     }
+    //                 }
+    //                 if (hits > 6) {
+    //                     // 什么都不做
+    //                     return;
+    //                 }
+    //             }
+    //         }
+    //         return setAttribute.call(this, name, value);
+    //     };
+    //     hookSetAttribute.reset = () => {
+    //         Element.prototype.setAttribute = setAttribute;
+    //     }
+    // };
+    // function hookQuerySelector() {
+    //     const querySelector = Element.prototype.querySelector;
+    //     Element.prototype.querySelector = function (selector) {
+    //         if (selector == 'img') {
+    //             // 202511；以下判断极有可能是广告
+    //             if (this.tagName == 'A' && (this.className || '').includes('w-full') && this.firstChild.tagName == 'IMG') {
+    //                 throw new Error('中断条件判断');
+    //             }
+    //         }
 
-            return querySelector.call(this, selector);
-        }
+    //         return querySelector.call(this, selector);
+    //     }
 
-        hookQuerySelector.reset = () => {
-            Element.prototype.querySelector = querySelector;
-        }
-    }
-    hookSetAttribute();
-    hookQuerySelector();
-    setTimeout(() => {
-        hookSetAttribute.reset();
-        hookQuerySelector.reset();
-    }, defaultDelay * 3);
+    //     hookQuerySelector.reset = () => {
+    //         Element.prototype.querySelector = querySelector;
+    //     }
+    // }
+    // hookSetAttribute();
+    // hookQuerySelector();
+    // setTimeout(() => {
+    //     hookSetAttribute.reset();
+    //     hookQuerySelector.reset();
+    // }, defaultDelay * 3);
 })();
