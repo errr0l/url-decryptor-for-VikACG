@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         维咔VikACG加密链接转换器
 // @namespace    http://tampermonkey.net/
-// @version      1.2.5
+// @version      1.2.6
 // @description  本脚本提供了一种绕过广告页面，直接获取资源链接的方式，并提供复制功能（在原下载链接旁边可以看到）；此外，若因渲染问题未能自动解密&创建节点时，如某些资源需要评论(或其他手段)才能显示，本脚本还提供了手动的方式：右侧悬浮菜单，最下方"解密&创建节点"按钮，在完成前置条件后，点击该按钮，可到达相同的效果。
 // @author       virtual___nova@outlook.com
 // @match        https://www.vikacg.com/p/*
@@ -2779,10 +2779,15 @@
                 }
             }
             const content = c.data.hidden_content?.content;
-            const d = content.length ? content : c.data.content;
+            let d = content.length ? content : c.data.content;
+            if (!Array.isArray(d)) {
+                d = [d];
+            }
             for (let e of d) {
                 const f = new Set(e.match(ll));
-                if (!f.size) { continue; }
+                if (!f.size) {
+                    continue;
+                }
                 for (const g of f) {
                     I[g] = {
                         i: g,
@@ -2791,8 +2796,9 @@
                             if (iii && g.includes(iii)) {
                                 this.iii = createNode();
                                 this.iii.href = g;
-                                return true;
+                                return 1;
                             }
+                            return 0;
                         }
                     };
                 }
@@ -2843,23 +2849,37 @@
         return ele;
     }
     function fn1(I, candidates) {
+        let index1 = 0;
         for (let i=0; i<I.length; i++) {
             let target = I[i];
-            let index1 = i;
-            for (let j=target.nextIndex || 0; j<candidates.length; j++) {
+            for (let j=index1; j<candidates.length; j++) {
                 const candidate = candidates[j];
                 if (!candidate.getAttribute("data")) {
                     continue;
                 }
                 let v = candidate.innerText;
-                if (v && target.iiii(v)) {
-                    const i = candidate.children.length ? candidate : candidate.parentNode;
-                    i.setAttribute("decrypted", "1");
-                    i.insertBefore(target.iii, i.childNodes[i.childNodes.length == 1 ? 0 : 1]);
-                    if (I[index1+1]) {
-                        I[index1+1].nextIndex = ++j;
+                if (v) {
+                    // 如果结果为2，跳过循环（表示，节点仍在页面上）
+                    const val = target.iiii(v);
+                    if (val > 0) {
+                        if (candidates[index1+1]) {
+                            index1 = ++j;
+                        }
                     }
-                    break;
+                    if (val == 1) {
+                        const i = candidate.children.length ? candidate.parentNode : candidate;
+                        if (i != candidate) {
+                            candidate.parentNode.insertBefore(target.iii, i.childNodes[i.childNodes.length == 1 ? 0 : 1]);
+                        }
+                        else {
+                            i.insertBefore(target.iii, i.firstChild);
+                        }
+                        i.setAttribute("decrypted", "1");
+                        break;
+                    }
+                    else if (val == 2) {
+                        break;
+                    }
                 }
             }
         }
@@ -2912,12 +2932,12 @@
                 ii: item.tagName.toLocaleLowerCase(),
                 iii: ele,
                 iiii(i) {
-                    return this.i === i && document.getElementById(this.iii.id) == null;
+                    return this.i === i && document.getElementById(this.iii.id) == null ? 1 : 2;
                 }
             };
         }
-        let II, III;
-        if (III = (II = Object.values(I)).length && aList.length !== III) {
+        let II = Object.values(I);
+        if (aList.length !== II.length) {
             fn1(II, candidates);
         }
         typeof callback == 'function' && callback();
@@ -2927,7 +2947,8 @@
     let maxTimes = 10;
     function check() {
         setTimeout(() => {
-            if (!document.querySelector(anchor).querySelectorAll('[decrypted]').length) {
+            const target = document.querySelector(anchor);
+            if (!target || !target.querySelectorAll('[decrypted]')?.length) {
                 if (times > maxTimes) {
                     console.error('未匹配到锚点');
                     return;
@@ -3104,61 +3125,4 @@
             console.error('解析失败');
         }
     }
-    // 隐藏广告拦截器提示（每次都弹出，挺烦）；
-    // 以下需要配合adBlock使用；
-    // const classes = "pub_300x250 pub_300x250m pub_728x90 text-ad textAd text_ad text_ads text-ads text-ad-links ad-text adSense adBlock adContent adBanner".split(" ");
-    // const hookSetAttribute = () => {
-    //     const setAttribute = Element.prototype.setAttribute;
-    //     Element.prototype.setAttribute = function (name, value) {
-    //         if (name === 'class') {
-    //             if (value) {
-    //                 let hits = 0;
-    //                 for (let i=0; i<classes.length; i++) {
-    //                     if (value.includes(classes[i])) {
-    //                         hits++;
-    //                     }
-
-    //                     if (hits > 6) {
-    //                         break;
-    //                     }
-
-    //                     if (hits == 0 && i>6) {
-    //                         break;
-    //                     }
-    //                 }
-    //                 if (hits > 6) {
-    //                     // 什么都不做
-    //                     return;
-    //                 }
-    //             }
-    //         }
-    //         return setAttribute.call(this, name, value);
-    //     };
-    //     hookSetAttribute.reset = () => {
-    //         Element.prototype.setAttribute = setAttribute;
-    //     }
-    // };
-    // function hookQuerySelector() {
-    //     const querySelector = Element.prototype.querySelector;
-    //     Element.prototype.querySelector = function (selector) {
-    //         if (selector == 'img') {
-    //             // 202511；以下判断极有可能是广告
-    //             if (this.tagName == 'A' && (this.className || '').includes('w-full') && this.firstChild.tagName == 'IMG') {
-    //                 throw new Error('中断条件判断');
-    //             }
-    //         }
-
-    //         return querySelector.call(this, selector);
-    //     }
-
-    //     hookQuerySelector.reset = () => {
-    //         Element.prototype.querySelector = querySelector;
-    //     }
-    // }
-    // hookSetAttribute();
-    // hookQuerySelector();
-    // setTimeout(() => {
-    //     hookSetAttribute.reset();
-    //     hookQuerySelector.reset();
-    // }, defaultDelay * 3);
 })();
