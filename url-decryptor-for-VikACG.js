@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         维咔VikACG加密链接转换器
 // @namespace    http://tampermonkey.net/
-// @version      1.2.7
+// @version      1.2.8
 // @description  本脚本提供了一种绕过广告页面，直接获取资源链接的方式，并提供复制功能（在原下载链接旁边可以看到）；此外，若因渲染问题未能自动解密&创建节点时，如某些资源需要评论(或其他手段)才能显示，本脚本还提供了手动的方式：右侧悬浮菜单，最下方"解密&创建节点"按钮，在完成前置条件后，点击该按钮，可到达相同的效果。
 // @author       virtual___nova@outlook.com
 // @match        https://www.vikacg.com/p/*
@@ -2736,7 +2736,7 @@
         }
     };
     const targets = [];
-    const ll = /https?:\/\/[^\s<>"{}|\\^`[\]]+/gi;
+    const ll = /\"https?:\/\/[^\s<>"{}|\\^`[\]]+\"/gi;
     const lll = /.*?\((.*?)\)/;
     function hook(targets) {
         const open = XMLHttpRequest.prototype.open;
@@ -2820,11 +2820,12 @@
                     const url = item.url;
                     I[name] = {
                         i: url,
-                        iiii(ii) {
+                        iiii(ii, anchor) {
                             if (ii !== name) {
                                 return 0;
                             }
-                            this.iii = createNode();
+                            const node = createNode();
+                            this.iii = node;
                             this.iii.href = url;
                             return 1;
                         },
@@ -2868,7 +2869,7 @@
         ele.setAttribute("target", "_blank");
         return ele;
     }
-    function fn1(I, candidates) {
+    function fn1(I, candidates, anchor) {
         let index1 = 0;
         const tags = ["A", "SPAN"];
         for (let i=0; i<I.length; i++) {
@@ -2877,14 +2878,15 @@
                 const candidate = candidates[j];
                 let v;
                 if (tags.includes(candidate.tagName) && !candidate.getAttribute("data") && !candidate.getAttribute("decrypted")) {
-                    if (candidates[index1+1]) {
-                        index1 += 1;
+                    let next = index1 + 1;
+                    if (candidates[next]) {
+                        index1 = next;
                     }
                     continue;
                 }
                 !v && (v = candidate.innerText);
                 if (v) {
-                    const val = target.iiii(v);
+                    const val = target.iiii(v, anchor);
                     if (val > 0) {
                         if (candidates[index1+1]) {
                             index1 += 1;
@@ -2892,7 +2894,6 @@
                     }
                     if (val == 1) {
                         const { pos } = target;
-                        // let node = parent ? candidate.parentNode : candidate;
                         const method = pos == -1 ? 'appendChild' : 'insertBefore';
                         candidate.parentNode[method](target.iii, candidate);
                         candidate.setAttribute("decrypted", "1");
@@ -2960,7 +2961,6 @@
             item.setAttribute("decrypted", "1");
             ele.href = href;
             ele.id = hrefObj ? hrefObj.b : encrypted;
-            // item.parentNode.insertBefore(ele, item);
             I[href] = {
                 i: item.textContent,
                 ii: item.tagName.toLocaleLowerCase(),
@@ -2970,13 +2970,17 @@
                 }
             };
         }
+        let II;
         if (I['fastDownloads']) {
-            delete I['fastDownloads'];
             candidates.push(...entry_content.nextSibling.querySelectorAll("h4"));
+            const { fastDownloads, ...others } = I;
+            II = Object.values(others);
         }
-        let II = Object.values(I);
+        else {
+            II = Object.values(I);
+        }
         if (filtered.length !== II.length) {
-            fn1(II, candidates);
+            fn1(II, candidates, target);
         }
         typeof callback == 'function' && callback();
     }
@@ -2986,13 +2990,23 @@
     function check() {
         setTimeout(() => {
             const entry_content = document.querySelector(anchor);
-            if (!entry_content || !entry_content.querySelectorAll('[decrypted]')?.length) {
+            if (!entry_content) {
+                return;
+            }
+            const marks = [...entry_content.querySelectorAll('[decrypted]')];
+            if (I.fastDownloads) {
+                marks.push(...entry_content.nextSibling.querySelectorAll("h4"));
+            }
+            if (!marks.length) {
                 if (times > maxTimes) {
-                    console.error('未匹配到锚点');
+                    console.log('[url-decryptor] 未匹配到锚点');
                     return;
                 }
                 times++;
                 runner(check);
+            }
+            else {
+                console.log('[url-decryptor] OK');
             }
         }, defaultDelay * 2);
     }
