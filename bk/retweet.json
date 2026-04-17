@@ -1,0 +1,603 @@
+{
+    "entryId": "tweet-2009259322174525867",
+    "sortIndex": "2009480418646032383",
+    "content": {
+        "entryType": "TimelineTimelineItem",
+        "__typename": "TimelineTimelineItem",
+        "itemContent": {
+            "itemType": "TimelineTweet",
+            "__typename": "TimelineTweet",
+            "tweet_results": {
+                "result": {
+                    "__typename": "Tweet",
+                    "rest_id": "2009259322174525867",
+                    "core": {
+                        "user_results": {
+                            "result": {
+                                "__typename": "User",
+                                "id": "VXNlcjoxNTkyNTc3MzM5MzQyNjIyNzIx",
+                                "rest_id": "1592577339342622721",
+                                "affiliates_highlighted_label": {},
+                                "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/1752633775392223232/PGxM_fBc_normal.jpg"
+                                },
+                                "core": {
+                                    "created_at": "Tue Nov 15 17:56:52 +0000 2022",
+                                    "name": "Rumiia るみゃ\uD83D\uDC99",
+                                    "screen_name": "rumiaaaaaavrc"
+                                },
+                                "dm_permissions": {
+                                    "can_dm": false
+                                },
+                                "follow_request_sent": false,
+                                "has_graduated_access": true,
+                                "is_blue_verified": true,
+                                "legacy": {
+                                    "default_profile": true,
+                                    "default_profile_image": false,
+                                    "description": "VRChatter\uD83D\uDC99 　\n・VRChat向け衣装を作っています\n・エンターテインメント\n・ダンス動画・アバター改変・撮影\n・HSP・INFP-T",
+                                    "entities": {
+                                        "description": {
+                                            "urls": []
+                                        },
+                                        "url": {
+                                            "urls": [
+                                                {
+                                                    "display_url": "stellaflora.booth.pm",
+                                                    "expanded_url": "https://stellaflora.booth.pm/",
+                                                    "url": "https://t.co/EqHGJD5rXX",
+                                                    "indices": [
+                                                        0,
+                                                        23
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "fast_followers_count": 0,
+                                    "favourites_count": 120460,
+                                    "followers_count": 15581,
+                                    "friends_count": 4597,
+                                    "has_custom_timelines": false,
+                                    "is_translator": false,
+                                    "listed_count": 127,
+                                    "media_count": 802,
+                                    "normal_followers_count": 15581,
+                                    "notifications": true,
+                                    "pinned_tweet_ids_str": [],
+                                    "possibly_sensitive": false,
+                                    "profile_banner_url": "https://pbs.twimg.com/profile_banners/1592577339342622721/1699992495",
+                                    "profile_interstitial_type": "",
+                                    "statuses_count": 18930,
+                                    "translator_type": "none",
+                                    "url": "https://t.co/EqHGJD5rXX",
+                                    "want_retweets": true,
+                                    "withheld_in_countries": []
+                                },
+                                "location": {
+                                    "location": ""
+                                },
+                                "media_permissions": {
+                                    "can_media_tag": true
+                                },
+                                "parody_commentary_fan_label": "None",
+                                "profile_image_shape": "Circle",
+                                "professional": {
+                                    "rest_id": "1706205481566720384",
+                                    "professional_type": "Creator",
+                                    "category": [
+                                        {
+                                            "id": 49,
+                                            "name": "Dance & Night Club",
+                                            "icon_name": "IconBriefcaseStroke"
+                                        }
+                                    ]
+                                },
+                                "profile_bio": {
+                                    "description": "VRChatter\uD83D\uDC99 　\n・VRChat向け衣装を作っています\n・エンターテインメント\n・ダンス動画・アバター改変・撮影\n・HSP・INFP-T"
+                                },
+                                "privacy": {
+                                    "protected": false
+                                },
+                                "relationship_perspectives": {
+                                    "following": true
+                                },
+                                "tipjar_settings": {},
+                                "verification": {
+                                    "verified": false
+                                },
+                                "profile_description_language": "ja"
+                            }
+                        }
+                    },
+                    "unmention_data": {},
+                    "edit_control": {
+                        "edit_tweet_ids": [
+                            "2009259322174525867"
+                        ],
+                        "editable_until_msecs": "1767883327296",
+                        "is_edit_eligible": false,
+                        "edits_remaining": "5"
+                    },
+                    "is_translatable": true,
+                    "views": {
+                        "state": "Enabled"
+                    },
+                    "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+                    "grok_analysis_button": true,
+                    "legacy": {
+                        "bookmark_count": 0,
+                        "bookmarked": false,
+                        "created_at": "Thu Jan 08 13:42:07 +0000 2026",
+                        "conversation_id_str": "2009259322174525867",
+                        "display_text_range": [
+                            0,
+                            140
+                        ],
+                        "entities": {
+                            "hashtags": [],
+                            "symbols": [],
+                            "timestamps": [],
+                            "urls": [],
+                            "user_mentions": [
+                                {
+                                    "id_str": "1916530201150058496",
+                                    "name": "FOXYPLAY",
+                                    "screen_name": "FOXYPLAY09",
+                                    "indices": [
+                                        3,
+                                        14
+                                    ]
+                                }
+                            ]
+                        },
+                        "favorite_count": 0,
+                        "favorited": false,
+                        "full_text": "RT @FOXYPLAY09: \uD83C\uDF19 FOXYPLAY 新作 \uD83C\uDF19\nルームウェアシャツ「Night_In」近日リリース予定！\n\nこの投稿を RT＋フォロー してください✨\n\uD83D\uDC96 BOOTHページのハートが100増えるごとに、\n当選者を1名追加で抽選し、Full Packをプレゼント！…",
+                        "is_quote_status": false,
+                        "lang": "ja",
+                        "quote_count": 0,
+                        "reply_count": 0,
+                        "retweet_count": 1599,
+                        "retweeted": false,
+                        "user_id_str": "1592577339342622721",
+                        "id_str": "2009259322174525867",
+                        "retweeted_status_result": {
+                            "result": {
+                                "__typename": "Tweet",
+                                "rest_id": "2009169605152133163",
+                                "core": {
+                                    "user_results": {
+                                        "result": {
+                                            "__typename": "User",
+                                            "id": "VXNlcjoxOTE2NTMwMjAxMTUwMDU4NDk2",
+                                            "rest_id": "1916530201150058496",
+                                            "affiliates_highlighted_label": {},
+                                            "avatar": {
+                                                "image_url": "https://pbs.twimg.com/profile_images/1919657999972630529/0np5z3VK_normal.jpg"
+                                            },
+                                            "core": {
+                                                "created_at": "Sun Apr 27 16:30:11 +0000 2025",
+                                                "name": "FOXYPLAY",
+                                                "screen_name": "FOXYPLAY09"
+                                            },
+                                            "dm_permissions": {
+                                                "can_dm": false
+                                            },
+                                            "follow_request_sent": false,
+                                            "has_graduated_access": true,
+                                            "is_blue_verified": true,
+                                            "legacy": {
+                                                "default_profile": true,
+                                                "default_profile_image": false,
+                                                "description": "ちょっぴりアブないセクシーでかわいい衣装をつくってます\uD83E\uDD8A\nVRChatで、あなたの魅力をもっと大胆に、もっと自由に✨\nエロかわいい世界\uD83D\uDC96、のぞいてみない？\uD83D\uDC60\uD83D\uDC8B\n\nBOOTH : https://t.co/cSfddhBeXh\n\nTag : #FOXYPLAY3D",
+                                                "entities": {
+                                                    "description": {
+                                                        "urls": [
+                                                            {
+                                                                "display_url": "foxyplay.booth.pm",
+                                                                "expanded_url": "https://foxyplay.booth.pm/",
+                                                                "url": "https://t.co/cSfddhBeXh",
+                                                                "indices": [
+                                                                    89,
+                                                                    112
+                                                                ]
+                                                            }
+                                                        ]
+                                                    }
+                                                },
+                                                "fast_followers_count": 0,
+                                                "favourites_count": 0,
+                                                "followers_count": 8339,
+                                                "friends_count": 5,
+                                                "has_custom_timelines": false,
+                                                "is_translator": false,
+                                                "listed_count": 23,
+                                                "media_count": 37,
+                                                "normal_followers_count": 8339,
+                                                "pinned_tweet_ids_str": [
+                                                    "2009169605152133163"
+                                                ],
+                                                "possibly_sensitive": false,
+                                                "profile_banner_url": "https://pbs.twimg.com/profile_banners/1916530201150058496/1746517177",
+                                                "profile_interstitial_type": "",
+                                                "statuses_count": 1386,
+                                                "translator_type": "none",
+                                                "want_retweets": false,
+                                                "withheld_in_countries": []
+                                            },
+                                            "location": {
+                                                "location": ""
+                                            },
+                                            "media_permissions": {
+                                                "can_media_tag": true
+                                            },
+                                            "parody_commentary_fan_label": "None",
+                                            "profile_image_shape": "Circle",
+                                            "profile_bio": {
+                                                "description": "ちょっぴりアブないセクシーでかわいい衣装をつくってます\uD83E\uDD8A\nVRChatで、あなたの魅力をもっと大胆に、もっと自由に✨\nエロかわいい世界\uD83D\uDC96、のぞいてみない？\uD83D\uDC60\uD83D\uDC8B\n\nBOOTH : https://t.co/cSfddhBeXh\n\nTag : #FOXYPLAY3D"
+                                            },
+                                            "privacy": {
+                                                "protected": false
+                                            },
+                                            "relationship_perspectives": {
+                                                "following": false
+                                            },
+                                            "tipjar_settings": {},
+                                            "verification": {
+                                                "verified": false
+                                            },
+                                            "profile_description_language": "ja"
+                                        }
+                                    }
+                                },
+                                "unmention_data": {},
+                                "edit_control": {
+                                    "edit_tweet_ids": [
+                                        "2009169605152133163"
+                                    ],
+                                    "editable_until_msecs": "1767861937000",
+                                    "is_edit_eligible": true,
+                                    "edits_remaining": "5"
+                                },
+                                "is_translatable": true,
+                                "views": {
+                                    "count": "64787",
+                                    "state": "EnabledWithCount"
+                                },
+                                "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+                                "note_tweet": {
+                                    "is_expandable": true,
+                                    "note_tweet_results": {
+                                        "result": {
+                                            "id": "Tm90ZVR3ZWV0OjIwMDkxNjk2MDUwODA4OTU0ODg=",
+                                            "text": "\uD83C\uDF19 FOXYPLAY 新作 \uD83C\uDF19\nルームウェアシャツ「Night_In」近日リリース予定！\n\nこの投稿を RT＋フォロー してください✨\n\uD83D\uDC96 BOOTHページのハートが100増えるごとに、\n当選者を1名追加で抽選し、Full Packをプレゼント！\n\n\uD83D\uDECD️ BOOTH ▶ https://t.co/pjXCDLfWu8\n\n\uD83D\uDDD3 抽選日：1月16日\n\n#VRChat #VRC #BOOTH #booth_pm #FOXYPLAY",
+                                            "entity_set": {
+                                                "hashtags": [
+                                                    {
+                                                        "indices": [
+                                                            174,
+                                                            181
+                                                        ],
+                                                        "text": "VRChat"
+                                                    },
+                                                    {
+                                                        "indices": [
+                                                            182,
+                                                            186
+                                                        ],
+                                                        "text": "VRC"
+                                                    },
+                                                    {
+                                                        "indices": [
+                                                            187,
+                                                            193
+                                                        ],
+                                                        "text": "BOOTH"
+                                                    },
+                                                    {
+                                                        "indices": [
+                                                            194,
+                                                            203
+                                                        ],
+                                                        "text": "booth_pm"
+                                                    },
+                                                    {
+                                                        "indices": [
+                                                            204,
+                                                            213
+                                                        ],
+                                                        "text": "FOXYPLAY"
+                                                    }
+                                                ],
+                                                "symbols": [],
+                                                "timestamps": [],
+                                                "urls": [
+                                                    {
+                                                        "display_url": "booth.pm/ja/items/78500…",
+                                                        "expanded_url": "https://booth.pm/ja/items/7850009",
+                                                        "url": "https://t.co/pjXCDLfWu8",
+                                                        "indices": [
+                                                            136,
+                                                            159
+                                                        ]
+                                                    }
+                                                ],
+                                                "user_mentions": []
+                                            },
+                                            "richtext": {
+                                                "richtext_tags": []
+                                            },
+                                            "media": {
+                                                "inline_media": []
+                                            }
+                                        }
+                                    }
+                                },
+                                "grok_analysis_button": true,
+                                "legacy": {
+                                    "bookmark_count": 398,
+                                    "bookmarked": false,
+                                    "created_at": "Thu Jan 08 07:45:37 +0000 2026",
+                                    "conversation_id_str": "2009169605152133163",
+                                    "display_text_range": [
+                                        0,
+                                        193
+                                    ],
+                                    "entities": {
+                                        "hashtags": [
+                                            {
+                                                "indices": [
+                                                    174,
+                                                    181
+                                                ],
+                                                "text": "VRChat"
+                                            },
+                                            {
+                                                "indices": [
+                                                    182,
+                                                    186
+                                                ],
+                                                "text": "VRC"
+                                            },
+                                            {
+                                                "indices": [
+                                                    187,
+                                                    193
+                                                ],
+                                                "text": "BOOTH"
+                                            }
+                                        ],
+                                        "media": [
+                                            {
+                                                "display_url": "pic.x.com/da9o4USLHD",
+                                                "expanded_url": "https://x.com/FOXYPLAY09/status/2009169605152133163/video/1",
+                                                "id_str": "2009169509865967616",
+                                                "indices": [
+                                                    194,
+                                                    217
+                                                ],
+                                                "media_key": "13_2009169509865967616",
+                                                "media_url_https": "https://pbs.twimg.com/amplify_video_thumb/2009169509865967616/img/ylc7tMncEk9m-uIV.jpg",
+                                                "type": "video",
+                                                "url": "https://t.co/da9o4USLHD",
+                                                "additional_media_info": {
+                                                    "monetizable": false
+                                                },
+                                                "ext_media_availability": {
+                                                    "status": "Available"
+                                                },
+                                                "sizes": {
+                                                    "large": {
+                                                        "h": 2048,
+                                                        "w": 2048,
+                                                        "resize": "fit"
+                                                    },
+                                                    "medium": {
+                                                        "h": 1200,
+                                                        "w": 1200,
+                                                        "resize": "fit"
+                                                    },
+                                                    "small": {
+                                                        "h": 680,
+                                                        "w": 680,
+                                                        "resize": "fit"
+                                                    },
+                                                    "thumb": {
+                                                        "h": 150,
+                                                        "w": 150,
+                                                        "resize": "crop"
+                                                    }
+                                                },
+                                                "original_info": {
+                                                    "height": 2160,
+                                                    "width": 2160,
+                                                    "focus_rects": []
+                                                },
+                                                "allow_download_status": {
+                                                    "allow_download": true
+                                                },
+                                                "video_info": {
+                                                    "aspect_ratio": [
+                                                        1,
+                                                        1
+                                                    ],
+                                                    "duration_millis": 6016,
+                                                    "variants": [
+                                                        {
+                                                            "content_type": "application/x-mpegURL",
+                                                            "url": "https://video.twimg.com/amplify_video/2009169509865967616/pl/WCWgx10k-eeeCaLA.m3u8?tag=21"
+                                                        },
+                                                        {
+                                                            "bitrate": 432000,
+                                                            "content_type": "video/mp4",
+                                                            "url": "https://video.twimg.com/amplify_video/2009169509865967616/vid/avc1/320x320/6kpR_dKR2YAoh6dz.mp4?tag=21"
+                                                        },
+                                                        {
+                                                            "bitrate": 832000,
+                                                            "content_type": "video/mp4",
+                                                            "url": "https://video.twimg.com/amplify_video/2009169509865967616/vid/avc1/540x540/pS2CzvAOPH2eBQpI.mp4?tag=21"
+                                                        },
+                                                        {
+                                                            "bitrate": 1280000,
+                                                            "content_type": "video/mp4",
+                                                            "url": "https://video.twimg.com/amplify_video/2009169509865967616/vid/avc1/720x720/PFQAMn3WiIbae0-r.mp4?tag=21"
+                                                        },
+                                                        {
+                                                            "bitrate": 8768000,
+                                                            "content_type": "video/mp4",
+                                                            "url": "https://video.twimg.com/amplify_video/2009169509865967616/vid/avc1/1080x1080/o3qpuI01mX7sjYdn.mp4?tag=21"
+                                                        }
+                                                    ]
+                                                },
+                                                "media_results": {
+                                                    "result": {
+                                                        "media_key": "13_2009169509865967616"
+                                                    }
+                                                }
+                                            }
+                                        ],
+                                        "symbols": [],
+                                        "timestamps": [],
+                                        "urls": [
+                                            {
+                                                "display_url": "booth.pm/ja/items/78500…",
+                                                "expanded_url": "https://booth.pm/ja/items/7850009",
+                                                "url": "https://t.co/wRYnPx1U3e",
+                                                "indices": [
+                                                    136,
+                                                    159
+                                                ]
+                                            }
+                                        ],
+                                        "user_mentions": []
+                                    },
+                                    "extended_entities": {
+                                        "media": [
+                                            {
+                                                "display_url": "pic.x.com/da9o4USLHD",
+                                                "expanded_url": "https://x.com/FOXYPLAY09/status/2009169605152133163/video/1",
+                                                "id_str": "2009169509865967616",
+                                                "indices": [
+                                                    194,
+                                                    217
+                                                ],
+                                                "media_key": "13_2009169509865967616",
+                                                "media_url_https": "https://pbs.twimg.com/amplify_video_thumb/2009169509865967616/img/ylc7tMncEk9m-uIV.jpg",
+                                                "type": "video",
+                                                "url": "https://t.co/da9o4USLHD",
+                                                "additional_media_info": {
+                                                    "monetizable": false
+                                                },
+                                                "ext_media_availability": {
+                                                    "status": "Available"
+                                                },
+                                                "sizes": {
+                                                    "large": {
+                                                        "h": 2048,
+                                                        "w": 2048,
+                                                        "resize": "fit"
+                                                    },
+                                                    "medium": {
+                                                        "h": 1200,
+                                                        "w": 1200,
+                                                        "resize": "fit"
+                                                    },
+                                                    "small": {
+                                                        "h": 680,
+                                                        "w": 680,
+                                                        "resize": "fit"
+                                                    },
+                                                    "thumb": {
+                                                        "h": 150,
+                                                        "w": 150,
+                                                        "resize": "crop"
+                                                    }
+                                                },
+                                                "original_info": {
+                                                    "height": 2160,
+                                                    "width": 2160,
+                                                    "focus_rects": []
+                                                },
+                                                "allow_download_status": {
+                                                    "allow_download": true
+                                                },
+                                                "video_info": {
+                                                    "aspect_ratio": [
+                                                        1,
+                                                        1
+                                                    ],
+                                                    "duration_millis": 6016,
+                                                    "variants": [
+                                                        {
+                                                            "content_type": "application/x-mpegURL",
+                                                            "url": "https://video.twimg.com/amplify_video/2009169509865967616/pl/WCWgx10k-eeeCaLA.m3u8?tag=21"
+                                                        },
+                                                        {
+                                                            "bitrate": 432000,
+                                                            "content_type": "video/mp4",
+                                                            "url": "https://video.twimg.com/amplify_video/2009169509865967616/vid/avc1/320x320/6kpR_dKR2YAoh6dz.mp4?tag=21"
+                                                        },
+                                                        {
+                                                            "bitrate": 832000,
+                                                            "content_type": "video/mp4",
+                                                            "url": "https://video.twimg.com/amplify_video/2009169509865967616/vid/avc1/540x540/pS2CzvAOPH2eBQpI.mp4?tag=21"
+                                                        },
+                                                        {
+                                                            "bitrate": 1280000,
+                                                            "content_type": "video/mp4",
+                                                            "url": "https://video.twimg.com/amplify_video/2009169509865967616/vid/avc1/720x720/PFQAMn3WiIbae0-r.mp4?tag=21"
+                                                        },
+                                                        {
+                                                            "bitrate": 8768000,
+                                                            "content_type": "video/mp4",
+                                                            "url": "https://video.twimg.com/amplify_video/2009169509865967616/vid/avc1/1080x1080/o3qpuI01mX7sjYdn.mp4?tag=21"
+                                                        }
+                                                    ]
+                                                },
+                                                "media_results": {
+                                                    "result": {
+                                                        "media_key": "13_2009169509865967616"
+                                                    }
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    "favorite_count": 1950,
+                                    "favorited": false,
+                                    "full_text": "\uD83C\uDF19 FOXYPLAY 新作 \uD83C\uDF19\nルームウェアシャツ「Night_In」近日リリース予定！\n\nこの投稿を RT＋フォロー してください✨\n\uD83D\uDC96 BOOTHページのハートが100増えるごとに、\n当選者を1名追加で抽選し、Full Packをプレゼント！\n\n\uD83D\uDECD️ BOOTH ▶ https://t.co/wRYnPx1U3e\n\n\uD83D\uDDD3 抽選日：1月16日\n\n#VRChat #VRC #BOOTH https://t.co/da9o4USLHD",
+                                    "is_quote_status": false,
+                                    "lang": "ja",
+                                    "possibly_sensitive": false,
+                                    "possibly_sensitive_editable": true,
+                                    "quote_count": 11,
+                                    "reply_count": 2,
+                                    "retweet_count": 1599,
+                                    "retweeted": false,
+                                    "user_id_str": "1916530201150058496",
+                                    "id_str": "2009169605152133163"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "tweetDisplayType": "Tweet"
+        },
+        "feedbackInfo": {
+            "feedbackKeys": [
+                "1343656401"
+            ]
+        },
+        "clientEventInfo": {
+            "component": "for_you_in_network",
+            "element": "tweet",
+            "details": {
+                "timelinesDetails": {
+                    "injectionType": "ForYouInNetwork",
+                    "controllerData": "DAACDAABDAABCgABAQAAQkICACMKAAKAAAAAAAEAAAoACSxWieTOoYDRCgAKAAABm6D8KqsIAAsAAAABDwAMAwAAACgjAAJCQgAAAQAAAQAAAACAAACAAAAAAACAAAAAFgDgAQAAAAAAAAABCgAObqp8znPeS2UKABBMsRPqouJEywAAAAA="
+                }
+            }
+        }
+    }
+}

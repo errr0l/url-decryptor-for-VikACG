@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name         维咔VikACG加密链接转换器
 // @namespace    http://tampermonkey.net/
-// @version      1.2.6
+// @version      1.2.7
 // @description  本脚本提供了一种绕过广告页面，直接获取资源链接的方式，并提供复制功能（在原下载链接旁边可以看到）；此外，若因渲染问题未能自动解密&创建节点时，如某些资源需要评论(或其他手段)才能显示，本脚本还提供了手动的方式：右侧悬浮菜单，最下方"解密&创建节点"按钮，在完成前置条件后，点击该按钮，可到达相同的效果。
 // @author       virtual___nova@outlook.com
 // @match        https://www.vikacg.com/p/*
+// @match        https://www.vikacg.com/external*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=vikacg.com
 // @run-at       document-end
 // @downloadURL https://update.greasyfork.org/scripts/537942/%E7%BB%B4%E5%92%94VikACG%E5%8A%A0%E5%AF%86%E9%93%BE%E6%8E%A5%E8%BD%AC%E6%8D%A2%E5%99%A8.user.js
@@ -2706,16 +2707,14 @@
             }).ciphertext.toString().toUpperCase()
         }
     };
-    const msg1 = "【复制成功】";
-    const msg2 = "【复制】";
+    // const msg1 = "【复制成功】";
+    const msg2 = "【跳转】";
     const defaultDelay = 3000;
     const patterns = [/.*?e=(.*?)&?/, /.*?id=(.*?)&?/];
     let anchor = ".prose";
     const I = {};
     const cached = {};
     const keys = {
-        // key: Vr.enc.Utf8.parse("hxwixhwizmwwmzaoq"),
-        // iv: Vr.enc.Utf8.parse("hxwiwzsaamzaoq"),
         key: {
             "words": [
                 1752725353,
@@ -2763,17 +2762,20 @@
             };
             send.apply(xhr, arguments);
         };
-        hook.reset = () => {
-            XMLHttpRequest.prototype.open = open;
-            XMLHttpRequest.prototype.send = send;
-        }
+        !hook.open && (hook.open = open);
+        !hook.send && (hook.send = send);
+    }
+    hook.reset = () => {
+        XMLHttpRequest.prototype.open = hook.open;
+        XMLHttpRequest.prototype.send = hook.send;
+        hook.open = null;
+        hook.send = null;
     }
     function handler(a, b) {
         const c = JSON.parse(b);
         if (c.code == 200) {
             if (c.data.hidden_content?.locked) {
                 targets[0] = { a: '/getPostHiddenContent', b: handler };
-                // 如果runner没有匹配到时，往下走
                 if (Object.keys(I).length) {
                     return;
                 }
@@ -2792,9 +2794,13 @@
                     I[g] = {
                         i: g,
                         iiii(ii) {
+                            if (document.getElementById(g) != null) {
+                                return 0;
+                            }
                             const iii = ii.replace(lll, '$1');
                             if (iii && g.includes(iii)) {
                                 this.iii = createNode();
+                                this.iii.id = g;
                                 this.iii.href = g;
                                 return 1;
                             }
@@ -2803,31 +2809,45 @@
                     };
                 }
             }
-            setTimeout(() => { runner(); hook.reset(); }, defaultDelay);
+            // 极速下载
+            const downloads = c.data.downloads;
+
+            if (Array.isArray(downloads)) {
+                // 假设只有一个
+                const fastDownloads = downloads.find(item => item.name == "极速下载");
+                for (const item of fastDownloads.items || []) {
+                    const name = item.name;
+                    const url = item.url;
+                    I[name] = {
+                        i: url,
+                        iiii(ii) {
+                            if (ii !== name) {
+                                return 0;
+                            }
+                            this.iii = createNode();
+                            this.iii.href = url;
+                            return 1;
+                        },
+                        pos: -1 // 插在后面
+                    };
+                }
+                I['fastDownloads'] = "1";
+            }
+            setTimeout(() => {
+                runner();
+                hook.reset();
+            }, defaultDelay);
         }
     }
     targets.push({ a: '/getPost', b: handler });
     hook(targets);
-    function copyHandler(ev) {
-        ev.preventDefault();
-        const target = ev.target;
-        const it = target.innerText;
-        if (it === msg1) {
-            return;
-        }
-        navigator.clipboard.writeText(target.href, true);
-        target.innerText = msg1;
-        setTimeout(() => {
-            target.innerText = msg2;
-        }, defaultDelay);
-    }
     function filter(nodes) {
         const res = [];
         for (const node of nodes) {
             let href;
             const tagName = node.tagName;
             if (!node.getAttribute('decrypted') && (href = node.getAttribute(tagName === "SPAN" ? "to" : 'href'))?.includes("external")) {
-                for (let i = 0; i < patterns.length; i++) {
+                for (let i = 0; i<patterns.length; i++) {
                     const pattern = patterns[i];
                     if (pattern.test(href)) {
                         node.matchedIndex = i;
@@ -2845,36 +2865,37 @@
         ele.style = "display: inline-block !important";
         ele.className = "hover:text-danger-500 text-blue";
         ele.innerText = msg2;
-        ele.addEventListener('click', copyHandler);
+        ele.setAttribute("target", "_blank");
         return ele;
     }
     function fn1(I, candidates) {
         let index1 = 0;
+        const tags = ["A", "SPAN"];
         for (let i=0; i<I.length; i++) {
             let target = I[i];
             for (let j=index1; j<candidates.length; j++) {
                 const candidate = candidates[j];
-                if (!candidate.getAttribute("data")) {
+                let v;
+                if (tags.includes(candidate.tagName) && !candidate.getAttribute("data") && !candidate.getAttribute("decrypted")) {
+                    if (candidates[index1+1]) {
+                        index1 += 1;
+                    }
                     continue;
                 }
-                let v = candidate.innerText;
+                !v && (v = candidate.innerText);
                 if (v) {
-                    // 如果结果为2，跳过循环（表示，节点仍在页面上）
                     const val = target.iiii(v);
                     if (val > 0) {
                         if (candidates[index1+1]) {
-                            index1 = ++j;
+                            index1 += 1;
                         }
                     }
                     if (val == 1) {
-                        const i = candidate.children.length ? candidate.parentNode : candidate;
-                        if (i != candidate) {
-                            candidate.parentNode.insertBefore(target.iii, i.childNodes[i.childNodes.length == 1 ? 0 : 1]);
-                        }
-                        else {
-                            i.insertBefore(target.iii, i.firstChild);
-                        }
-                        i.setAttribute("decrypted", "1");
+                        const { pos } = target;
+                        // let node = parent ? candidate.parentNode : candidate;
+                        const method = pos == -1 ? 'appendChild' : 'insertBefore';
+                        candidate.parentNode[method](target.iii, candidate);
+                        candidate.setAttribute("decrypted", "1");
                         break;
                     }
                     else if (val == 2) {
@@ -2888,13 +2909,26 @@
     async function runner(callback) {
         const entry_content = document.querySelector(anchor);
         if (!entry_content) {
-            typeof callback == 'function' && callback();;
+            // 如果是https://www.vikacg.com/external
+            const href = location.href;
+            if (href.includes("/external")) {
+                const btnBlue = document.querySelector('.btn-blue-linear');
+                if (btnBlue) {
+                    const ele = createNode();
+                    const encrypted = href.replace(patterns[0], "$1");
+                    ele.href = hy.decrypt(encrypted);
+                    btnBlue.parentNode.insertBefore(ele, btnBlue);
+                    return;
+                }
+            }
+            typeof callback == 'function' && callback();
             return;
         }
         const target = entry_content;
+
         const candidates = [...target.querySelectorAll('a'), ...target.querySelectorAll('span')];
-        let aList = filter(candidates);
-        for (const item of aList) {
+        let filtered = filter(candidates);
+        for (const item of filtered) {
             let encrypted;
             const index = item.matchedIndex;
             const pattern = patterns[index];
@@ -2926,7 +2960,7 @@
             item.setAttribute("decrypted", "1");
             ele.href = href;
             ele.id = hrefObj ? hrefObj.b : encrypted;
-            item.parentNode.insertBefore(ele, item);
+            // item.parentNode.insertBefore(ele, item);
             I[href] = {
                 i: item.textContent,
                 ii: item.tagName.toLocaleLowerCase(),
@@ -2936,8 +2970,12 @@
                 }
             };
         }
+        if (I['fastDownloads']) {
+            delete I['fastDownloads'];
+            candidates.push(...entry_content.nextSibling.querySelectorAll("h4"));
+        }
         let II = Object.values(I);
-        if (aList.length !== II.length) {
+        if (filtered.length !== II.length) {
             fn1(II, candidates);
         }
         typeof callback == 'function' && callback();
@@ -2947,8 +2985,8 @@
     let maxTimes = 10;
     function check() {
         setTimeout(() => {
-            const target = document.querySelector(anchor);
-            if (!target || !target.querySelectorAll('[decrypted]')?.length) {
+            const entry_content = document.querySelector(anchor);
+            if (!entry_content || !entry_content.querySelectorAll('[decrypted]')?.length) {
                 if (times > maxTimes) {
                     console.error('未匹配到锚点');
                     return;

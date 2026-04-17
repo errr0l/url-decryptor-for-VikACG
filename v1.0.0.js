@@ -294,3 +294,392 @@
     }
   }
 })();
+
+// "retweeted_status_result": {
+//   "result": {
+//       "__typename": "TweetWithVisibilityResults",
+//       "tweet": {
+//           "rest_id": "2008079397241442766",
+//           "core": {
+//               "user_results": {
+//                   "result": {
+//                       "__typename": "User",
+//                       "id": "VXNlcjoxNzQ4NTU1NTc0NzA5NzkyNzY4",
+//                       "rest_id": "1748555574709792768",
+//                       "affiliates_highlighted_label": {},
+//                       "avatar": {
+//                           "image_url": "https://pbs.twimg.com/profile_images/1993237532327526409/GjAaulMb_normal.png"
+//                       },
+//                       "core": {
+//                           "created_at": "Sat Jan 20 03:58:56 +0000 2024",
+//                           "name": "麻豆-全球官方账号",
+//                           "screen_name": "Mdapp12com"
+//                       },
+//                       "dm_permissions": {
+//                           "can_dm": true
+//                       },
+//                       "follow_request_sent": false,
+//                       "has_graduated_access": true,
+//                       "is_blue_verified": false,
+//                       "legacy": {
+//                           "default_profile": true,
+//                           "default_profile_image": false,
+//                           "description": "始于欲望，合于性趣，忠于品质，久于热爱\n华语原创｜国产经典｜情色文学｜系列宇宙\n情欲宇宙的边界，与您一起探索\uD83D\uDD0D\n麻豆网址➡️  https://t.co/5WTc73XS0o \n麻豆APP➡️  https://t.co/RulQf70rz3\n获得第一手情欲作品\uD83D\uDE0D\uD83D\uDC49\uD83D\uDC4C\uD83D\uDCA6",
+//                           "entities": {
+//                               "description": {
+//                                   "urls": [
+//                                       {
+//                                           "display_url": "madou.com",
+//                                           "expanded_url": "https://madou.com",
+//                                           "url": "https://t.co/5WTc73XS0o",
+//                                           "indices": [
+//                                               64,
+//                                               87
+//                                           ]
+//                                       },
+//                                       {
+//                                           "display_url": "mdapp12.com",
+//                                           "expanded_url": "https://mdapp12.com",
+//                                           "url": "https://t.co/RulQf70rz3",
+//                                           "indices": [
+//                                               98,
+//                                               121
+//                                           ]
+//                                       }
+//                                   ]
+//                               },
+//                               "url": {
+//                                   "urls": [
+//                                       {
+//                                           "display_url": "madou.com",
+//                                           "expanded_url": "https://madou.com",
+//                                           "url": "https://t.co/5WTc73XS0o",
+//                                           "indices": [
+//                                               0,
+//                                               23
+//                                           ]
+//                                       }
+//                                   ]
+//                               }
+//                           },
+//                           "fast_followers_count": 0,
+//                           "favourites_count": 602,
+//                           "followers_count": 63186,
+//                           "friends_count": 5,
+//                           "has_custom_timelines": false,
+//                           "is_translator": false,
+//                           "listed_count": 112,
+//                           "media_count": 747,
+//                           "normal_followers_count": 63186,
+//                           "pinned_tweet_ids_str": [
+//                               "1999507603445952840"
+//                           ],
+//                           "possibly_sensitive": true,
+//                           "profile_banner_url": "https://pbs.twimg.com/profile_banners/1748555574709792768/1764067911",
+//                           "profile_interstitial_type": "sensitive_media",
+//                           "statuses_count": 1073,
+//                           "translator_type": "none",
+//                           "url": "https://t.co/5WTc73XS0o",
+//                           "want_retweets": false,
+//                           "withheld_in_countries": []
+//                       },
+//                       "location": {
+//                           "location": "忠于品质，久于热爱"
+//                       },
+//                       "media_permissions": {
+//                           "can_media_tag": true
+//                       },
+//                       "parody_commentary_fan_label": "None",
+//                       "profile_image_shape": "Circle",
+//                       "professional": {
+//                           "rest_id": "1751074185974251754",
+//                           "professional_type": "Business",
+//                           "category": [
+//                               {
+//                                   "id": 477,
+//                                   "name": "Professional Services",
+//                                   "icon_name": "IconBriefcaseStroke"
+//                               }
+//                           ]
+//                       },
+//                       "profile_bio": {
+//                           "description": "始于欲望，合于性趣，忠于品质，久于热爱\n华语原创｜国产经典｜情色文学｜系列宇宙\n情欲宇宙的边界，与您一起探索\uD83D\uDD0D\n麻豆网址➡️  https://t.co/5WTc73XS0o \n麻豆APP➡️  https://t.co/RulQf70rz3\n获得第一手情欲作品\uD83D\uDE0D\uD83D\uDC49\uD83D\uDC4C\uD83D\uDCA6"
+//                       },
+//                       "privacy": {
+//                           "protected": false
+//                       },
+//                       "relationship_perspectives": {
+//                           "following": false
+//                       },
+//                       "tipjar_settings": {},
+//                       "verification": {
+//                           "verified": false
+//                       },
+//                       "profile_description_language": "zh"
+//                   }
+//               }
+//           },
+//           "unmention_data": {},
+//           "edit_control": {
+//               "edit_tweet_ids": [
+//                   "2008079397241442766"
+//               ],
+//               "editable_until_msecs": "1767602011000",
+//               "is_edit_eligible": true,
+//               "edits_remaining": "5"
+//           },
+//           "is_translatable": true,
+//           "views": {
+//               "count": "809007",
+//               "state": "EnabledWithCount"
+//           },
+//           "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+//           "grok_analysis_button": true,
+//           "legacy": {
+//               "bookmark_count": 5044,
+//               "bookmarked": false,
+//               "created_at": "Mon Jan 05 07:33:31 +0000 2026",
+//               "conversation_id_str": "2008079397241442766",
+//               "display_text_range": [
+//                   0,
+//                   151
+//               ],
+//               "entities": {
+//                   "hashtags": [
+//                       {
+//                           "indices": [
+//                               126,
+//                               131
+//                           ],
+//                           "text": "清爽夏日"
+//                       },
+//                       {
+//                           "indices": [
+//                               132,
+//                               135
+//                           ],
+//                           "text": "按摩"
+//                       },
+//                       {
+//                           "indices": [
+//                               136,
+//                               139
+//                           ],
+//                           "text": "巨乳"
+//                       },
+//                       {
+//                           "indices": [
+//                               140,
+//                               143
+//                           ],
+//                           "text": "挑逗"
+//                       }
+//                   ],
+//                   "media": [
+//                       {
+//                           "display_url": "pic.x.com/pficZ1RmSh",
+//                           "expanded_url": "https://x.com/Mdapp12com/status/2008079397241442766/video/1",
+//                           "id_str": "2008079087794073600",
+//                           "indices": [
+//                               152,
+//                               175
+//                           ],
+//                           "media_key": "13_2008079087794073600",
+//                           "media_url_https": "https://pbs.twimg.com/amplify_video_thumb/2008079087794073600/img/v3-IpuhxIzC0DGi1.jpg",
+//                           "type": "video",
+//                           "url": "https://t.co/pficZ1RmSh",
+//                           "additional_media_info": {
+//                               "monetizable": false
+//                           },
+//                           "ext_media_availability": {
+//                               "status": "Available"
+//                           },
+//                           "sizes": {
+//                               "large": {
+//                                   "h": 1944,
+//                                   "w": 1080,
+//                                   "resize": "fit"
+//                               },
+//                               "medium": {
+//                                   "h": 1200,
+//                                   "w": 667,
+//                                   "resize": "fit"
+//                               },
+//                               "small": {
+//                                   "h": 680,
+//                                   "w": 378,
+//                                   "resize": "fit"
+//                               },
+//                               "thumb": {
+//                                   "h": 150,
+//                                   "w": 150,
+//                                   "resize": "crop"
+//                               }
+//                           },
+//                           "original_info": {
+//                               "height": 1944,
+//                               "width": 1080,
+//                               "focus_rects": []
+//                           },
+//                           "allow_download_status": {
+//                               "allow_download": true
+//                           },
+//                           "video_info": {
+//                               "aspect_ratio": [
+//                                   5,
+//                                   9
+//                               ],
+//                               "duration_millis": 16405,
+//                               "variants": [
+//                                   {
+//                                       "content_type": "application/x-mpegURL",
+//                                       "url": "https://video.twimg.com/amplify_video/2008079087794073600/pl/Bz6u9M9_qyACIk7V.m3u8?tag=14"
+//                                   },
+//                                   {
+//                                       "bitrate": 632000,
+//                                       "content_type": "video/mp4",
+//                                       "url": "https://video.twimg.com/amplify_video/2008079087794073600/vid/avc1/320x576/Lz9iuye-yHxkMnrj.mp4?tag=14"
+//                                   },
+//                                   {
+//                                       "bitrate": 950000,
+//                                       "content_type": "video/mp4",
+//                                       "url": "https://video.twimg.com/amplify_video/2008079087794073600/vid/avc1/480x864/T0ldw8OzD85zq5Mh.mp4?tag=14"
+//                                   },
+//                                   {
+//                                       "bitrate": 2176000,
+//                                       "content_type": "video/mp4",
+//                                       "url": "https://video.twimg.com/amplify_video/2008079087794073600/vid/avc1/720x1296/fvbvxs3kiKRONjKo.mp4?tag=14"
+//                                   }
+//                               ]
+//                           },
+//                           "media_results": {
+//                               "result": {
+//                                   "media_key": "13_2008079087794073600"
+//                               }
+//                           }
+//                       }
+//                   ],
+//                   "symbols": [],
+//                   "timestamps": [],
+//                   "urls": [],
+//                   "user_mentions": []
+//               },
+//               "extended_entities": {
+//                   "media": [
+//                       {
+//                           "display_url": "pic.x.com/pficZ1RmSh",
+//                           "expanded_url": "https://x.com/Mdapp12com/status/2008079397241442766/video/1",
+//                           "id_str": "2008079087794073600",
+//                           "indices": [
+//                               152,
+//                               175
+//                           ],
+//                           "media_key": "13_2008079087794073600",
+//                           "media_url_https": "https://pbs.twimg.com/amplify_video_thumb/2008079087794073600/img/v3-IpuhxIzC0DGi1.jpg",
+//                           "type": "video",
+//                           "url": "https://t.co/pficZ1RmSh",
+//                           "additional_media_info": {
+//                               "monetizable": false
+//                           },
+//                           "ext_media_availability": {
+//                               "status": "Available"
+//                           },
+//                           "sizes": {
+//                               "large": {
+//                                   "h": 1944,
+//                                   "w": 1080,
+//                                   "resize": "fit"
+//                               },
+//                               "medium": {
+//                                   "h": 1200,
+//                                   "w": 667,
+//                                   "resize": "fit"
+//                               },
+//                               "small": {
+//                                   "h": 680,
+//                                   "w": 378,
+//                                   "resize": "fit"
+//                               },
+//                               "thumb": {
+//                                   "h": 150,
+//                                   "w": 150,
+//                                   "resize": "crop"
+//                               }
+//                           },
+//                           "original_info": {
+//                               "height": 1944,
+//                               "width": 1080,
+//                               "focus_rects": []
+//                           },
+//                           "allow_download_status": {
+//                               "allow_download": true
+//                           },
+//                           "video_info": {
+//                               "aspect_ratio": [
+//                                   5,
+//                                   9
+//                               ],
+//                               "duration_millis": 16405,
+//                               "variants": [
+//                                   {
+//                                       "content_type": "application/x-mpegURL",
+//                                       "url": "https://video.twimg.com/amplify_video/2008079087794073600/pl/Bz6u9M9_qyACIk7V.m3u8?tag=14"
+//                                   },
+//                                   {
+//                                       "bitrate": 632000,
+//                                       "content_type": "video/mp4",
+//                                       "url": "https://video.twimg.com/amplify_video/2008079087794073600/vid/avc1/320x576/Lz9iuye-yHxkMnrj.mp4?tag=14"
+//                                   },
+//                                   {
+//                                       "bitrate": 950000,
+//                                       "content_type": "video/mp4",
+//                                       "url": "https://video.twimg.com/amplify_video/2008079087794073600/vid/avc1/480x864/T0ldw8OzD85zq5Mh.mp4?tag=14"
+//                                   },
+//                                   {
+//                                       "bitrate": 2176000,
+//                                       "content_type": "video/mp4",
+//                                       "url": "https://video.twimg.com/amplify_video/2008079087794073600/vid/avc1/720x1296/fvbvxs3kiKRONjKo.mp4?tag=14"
+//                                   }
+//                               ]
+//                           },
+//                           "media_results": {
+//                               "result": {
+//                                   "media_key": "13_2008079087794073600"
+//                               }
+//                           }
+//                       }
+//                   ]
+//               },
+//               "favorite_count": 11142,
+//               "favorited": false,
+//               "full_text": "《夏⽇美乳少妇的⾊按初体验 / 挑逗G点手法全身颤抖痉挛 / MD-0356》\n汗水和暧昧，一起滴落在盛夏。\n热浪、触摸、呻吟、心跳。\n\uD83D\uDD25 她不是危险，而是欲望的引爆点。\n\uD83D\uDD25 太热了，所以没人能装作冷静。\n\n本片由：麻豆女神  艾熙 领衔主演！\n含： #清爽夏日、#按摩、#巨乳、#挑逗  等劲爆元素！ https://t.co/pficZ1RmSh",
+//               "is_quote_status": false,
+//               "lang": "zh",
+//               "possibly_sensitive": true,
+//               "possibly_sensitive_editable": false,
+//               "quote_count": 1,
+//               "reply_count": 46,
+//               "retweet_count": 3276,
+//               "retweeted": false,
+//               "user_id_str": "1748555574709792768",
+//               "id_str": "2008079397241442766"
+//           }
+//       },
+//       "mediaVisibilityResults": {
+//           "blurred_image_interstitial": {
+//               "interstitial_action": "AgeVerificationPrompt",
+//               "opacity": 0.8,
+//               "text": {
+//                   "rtl": false,
+//                   "text": "X labeled this post as containing Adult Content.",
+//                   "entities": []
+//               },
+//               "title": {
+//                   "rtl": false,
+//                   "text": "Content warning: Adult Content",
+//                   "entities": []
+//               }
+//           }
+//       }
+//   }
+// }

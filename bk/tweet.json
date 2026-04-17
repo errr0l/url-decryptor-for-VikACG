@@ -1,0 +1,398 @@
+{
+    "entryId": "tweet-2009158128902840466",
+    "sortIndex": "2009480418646032382",
+    "content": {
+        "entryType": "TimelineTimelineItem",
+        "__typename": "TimelineTimelineItem",
+        "itemContent": {
+            "itemType": "TimelineTweet",
+            "__typename": "TimelineTweet",
+            "tweet_results": {
+                "result": {
+                    "__typename": "Tweet",
+                    "rest_id": "2009158128902840466",
+                    "core": {
+                        "user_results": {
+                            "result": {
+                                "__typename": "User",
+                                "id": "VXNlcjoxNjE0ODA4NzAxODA1OTQwNzM3",
+                                "rest_id": "1614808701805940737",
+                                "affiliates_highlighted_label": {},
+                                "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/1729703873802293248/Bhbxqbt3_normal.jpg"
+                                },
+                                "core": {
+                                    "created_at": "Mon Jan 16 02:16:20 +0000 2023",
+                                    "name": "Tower of God: New World",
+                                    "screen_name": "ToG_new_world"
+                                },
+                                "dm_permissions": {
+                                    "can_dm": false
+                                },
+                                "follow_request_sent": false,
+                                "has_graduated_access": true,
+                                "is_blue_verified": true,
+                                "legacy": {
+                                    "default_profile": true,
+                                    "default_profile_image": false,
+                                    "description": "This is 'Tower of God: New World' Official Twitter!\n#TOGNW #towerofgod #netmarble\n\nInstagram: https://t.co/g6TPbNQ2lX\nFacebook: https://t.co/CXkJbwsEFv",
+                                    "entities": {
+                                        "description": {
+                                            "urls": [
+                                                {
+                                                    "display_url": "ntiny.link/tognw_ig",
+                                                    "expanded_url": "http://ntiny.link/tognw_ig",
+                                                    "url": "https://t.co/g6TPbNQ2lX",
+                                                    "indices": [
+                                                        94,
+                                                        117
+                                                    ]
+                                                },
+                                                {
+                                                    "display_url": "ntiny.link/tognw_fb",
+                                                    "expanded_url": "http://ntiny.link/tognw_fb",
+                                                    "url": "https://t.co/CXkJbwsEFv",
+                                                    "indices": [
+                                                        128,
+                                                        151
+                                                    ]
+                                                }
+                                            ]
+                                        },
+                                        "url": {
+                                            "urls": [
+                                                {
+                                                    "display_url": "discord.gg/tognewworld",
+                                                    "expanded_url": "https://discord.gg/tognewworld",
+                                                    "url": "https://t.co/MaIcm5bm6U",
+                                                    "indices": [
+                                                        0,
+                                                        23
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "fast_followers_count": 0,
+                                    "favourites_count": 0,
+                                    "followers_count": 10352,
+                                    "friends_count": 0,
+                                    "has_custom_timelines": false,
+                                    "is_translator": false,
+                                    "listed_count": 18,
+                                    "media_count": 429,
+                                    "normal_followers_count": 10352,
+                                    "pinned_tweet_ids_str": [
+                                        "2007014000978985192"
+                                    ],
+                                    "possibly_sensitive": false,
+                                    "profile_banner_url": "https://pbs.twimg.com/profile_banners/1614808701805940737/1765328703",
+                                    "profile_interstitial_type": "",
+                                    "statuses_count": 437,
+                                    "translator_type": "none",
+                                    "url": "https://t.co/MaIcm5bm6U",
+                                    "want_retweets": false,
+                                    "withheld_in_countries": []
+                                },
+                                "location": {
+                                    "location": ""
+                                },
+                                "media_permissions": {
+                                    "can_media_tag": false
+                                },
+                                "parody_commentary_fan_label": "None",
+                                "profile_image_shape": "Square",
+                                "profile_bio": {
+                                    "description": "This is 'Tower of God: New World' Official Twitter!\n#TOGNW #towerofgod #netmarble\n\nInstagram: https://t.co/g6TPbNQ2lX\nFacebook: https://t.co/CXkJbwsEFv"
+                                },
+                                "privacy": {
+                                    "protected": false
+                                },
+                                "relationship_perspectives": {
+                                    "following": false
+                                },
+                                "tipjar_settings": {},
+                                "verification": {
+                                    "verified": false,
+                                    "verified_type": "Business"
+                                },
+                                "profile_description_language": "en"
+                            }
+                        }
+                    },
+                    "unmention_data": {},
+                    "edit_control": {
+                        "edit_tweet_ids": [
+                            "2009158128902840466"
+                        ],
+                        "editable_until_msecs": "1767859200000",
+                        "is_edit_eligible": true,
+                        "edits_remaining": "5"
+                    },
+                    "is_translatable": false,
+                    "views": {
+                        "count": "23124",
+                        "state": "EnabledWithCount"
+                    },
+                    "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+                    "grok_analysis_button": true,
+                    "legacy": {
+                        "bookmark_count": 358,
+                        "bookmarked": false,
+                        "created_at": "Thu Jan 08 07:00:00 +0000 2026",
+                        "conversation_id_str": "2009158128902840466",
+                        "display_text_range": [
+                            0,
+                            115
+                        ],
+                        "entities": {
+                            "hashtags": [
+                                {
+                                    "indices": [
+                                        88,
+                                        92
+                                    ],
+                                    "text": "신의탑"
+                                },
+                                {
+                                    "indices": [
+                                        93,
+                                        99
+                                    ],
+                                    "text": "새로운세계"
+                                },
+                                {
+                                    "indices": [
+                                        100,
+                                        107
+                                    ],
+                                    "text": "TOGWNW"
+                                },
+                                {
+                                    "indices": [
+                                        108,
+                                        115
+                                    ],
+                                    "text": "shorts"
+                                }
+                            ],
+                            "media": [
+                                {
+                                    "display_url": "pic.x.com/uxWNXksJQg",
+                                    "expanded_url": "https://x.com/ToG_new_world/status/2009158128902840466/video/1",
+                                    "id_str": "2009145762215809024",
+                                    "indices": [
+                                        116,
+                                        139
+                                    ],
+                                    "media_key": "13_2009145762215809024",
+                                    "media_url_https": "https://pbs.twimg.com/amplify_video_thumb/2009145762215809024/img/e_GEMfLtj7HhMIsl.jpg",
+                                    "type": "video",
+                                    "url": "https://t.co/uxWNXksJQg",
+                                    "additional_media_info": {
+                                        "monetizable": false
+                                    },
+                                    "ext_media_availability": {
+                                        "status": "Available"
+                                    },
+                                    "sizes": {
+                                        "large": {
+                                            "h": 1920,
+                                            "w": 1080,
+                                            "resize": "fit"
+                                        },
+                                        "medium": {
+                                            "h": 1200,
+                                            "w": 675,
+                                            "resize": "fit"
+                                        },
+                                        "small": {
+                                            "h": 680,
+                                            "w": 383,
+                                            "resize": "fit"
+                                        },
+                                        "thumb": {
+                                            "h": 150,
+                                            "w": 150,
+                                            "resize": "crop"
+                                        }
+                                    },
+                                    "original_info": {
+                                        "height": 1920,
+                                        "width": 1080,
+                                        "focus_rects": []
+                                    },
+                                    "allow_download_status": {
+                                        "allow_download": true
+                                    },
+                                    "video_info": {
+                                        "aspect_ratio": [
+                                            9,
+                                            16
+                                        ],
+                                        "duration_millis": 14000,
+                                        "variants": [
+                                            {
+                                                "content_type": "application/x-mpegURL",
+                                                "url": "https://video.twimg.com/amplify_video/2009145762215809024/pl/rMN7qbW7I0yMzcuI.m3u8?tag=21"
+                                            },
+                                            {
+                                                "bitrate": 632000,
+                                                "content_type": "video/mp4",
+                                                "url": "https://video.twimg.com/amplify_video/2009145762215809024/vid/avc1/320x568/H4rgd7dHkVz075s8.mp4?tag=21"
+                                            },
+                                            {
+                                                "bitrate": 950000,
+                                                "content_type": "video/mp4",
+                                                "url": "https://video.twimg.com/amplify_video/2009145762215809024/vid/avc1/480x852/jGptZ70HeUrESxBu.mp4?tag=21"
+                                            },
+                                            {
+                                                "bitrate": 2176000,
+                                                "content_type": "video/mp4",
+                                                "url": "https://video.twimg.com/amplify_video/2009145762215809024/vid/avc1/720x1280/bsM5isDCCuOGbR2c.mp4?tag=21"
+                                            },
+                                            {
+                                                "bitrate": 10368000,
+                                                "content_type": "video/mp4",
+                                                "url": "https://video.twimg.com/amplify_video/2009145762215809024/vid/avc1/1080x1920/XJuaXhvIWihUzGZP.mp4?tag=21"
+                                            }
+                                        ]
+                                    },
+                                    "media_results": {
+                                        "result": {
+                                            "media_key": "13_2009145762215809024"
+                                        }
+                                    }
+                                }
+                            ],
+                            "symbols": [],
+                            "timestamps": [],
+                            "urls": [],
+                            "user_mentions": []
+                        },
+                        "extended_entities": {
+                            "media": [
+                                {
+                                    "display_url": "pic.x.com/uxWNXksJQg",
+                                    "expanded_url": "https://x.com/ToG_new_world/status/2009158128902840466/video/1",
+                                    "id_str": "2009145762215809024",
+                                    "indices": [
+                                        116,
+                                        139
+                                    ],
+                                    "media_key": "13_2009145762215809024",
+                                    "media_url_https": "https://pbs.twimg.com/amplify_video_thumb/2009145762215809024/img/e_GEMfLtj7HhMIsl.jpg",
+                                    "type": "video",
+                                    "url": "https://t.co/uxWNXksJQg",
+                                    "additional_media_info": {
+                                        "monetizable": false
+                                    },
+                                    "ext_media_availability": {
+                                        "status": "Available"
+                                    },
+                                    "sizes": {
+                                        "large": {
+                                            "h": 1920,
+                                            "w": 1080,
+                                            "resize": "fit"
+                                        },
+                                        "medium": {
+                                            "h": 1200,
+                                            "w": 675,
+                                            "resize": "fit"
+                                        },
+                                        "small": {
+                                            "h": 680,
+                                            "w": 383,
+                                            "resize": "fit"
+                                        },
+                                        "thumb": {
+                                            "h": 150,
+                                            "w": 150,
+                                            "resize": "crop"
+                                        }
+                                    },
+                                    "original_info": {
+                                        "height": 1920,
+                                        "width": 1080,
+                                        "focus_rects": []
+                                    },
+                                    "allow_download_status": {
+                                        "allow_download": true
+                                    },
+                                    "video_info": {
+                                        "aspect_ratio": [
+                                            9,
+                                            16
+                                        ],
+                                        "duration_millis": 14000,
+                                        "variants": [
+                                            {
+                                                "content_type": "application/x-mpegURL",
+                                                "url": "https://video.twimg.com/amplify_video/2009145762215809024/pl/rMN7qbW7I0yMzcuI.m3u8?tag=21"
+                                            },
+                                            {
+                                                "bitrate": 632000,
+                                                "content_type": "video/mp4",
+                                                "url": "https://video.twimg.com/amplify_video/2009145762215809024/vid/avc1/320x568/H4rgd7dHkVz075s8.mp4?tag=21"
+                                            },
+                                            {
+                                                "bitrate": 950000,
+                                                "content_type": "video/mp4",
+                                                "url": "https://video.twimg.com/amplify_video/2009145762215809024/vid/avc1/480x852/jGptZ70HeUrESxBu.mp4?tag=21"
+                                            },
+                                            {
+                                                "bitrate": 2176000,
+                                                "content_type": "video/mp4",
+                                                "url": "https://video.twimg.com/amplify_video/2009145762215809024/vid/avc1/720x1280/bsM5isDCCuOGbR2c.mp4?tag=21"
+                                            },
+                                            {
+                                                "bitrate": 10368000,
+                                                "content_type": "video/mp4",
+                                                "url": "https://video.twimg.com/amplify_video/2009145762215809024/vid/avc1/1080x1920/XJuaXhvIWihUzGZP.mp4?tag=21"
+                                            }
+                                        ]
+                                    },
+                                    "media_results": {
+                                        "result": {
+                                            "media_key": "13_2009145762215809024"
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        "favorite_count": 1099,
+                        "favorited": false,
+                        "full_text": "[Red-Haired Witch] Hwaryun appears!⛏️❤️ \n\"I'll take you... Wherever you'd like to go.\" \n#신의탑 #새로운세계 #TOGWNW #shorts https://t.co/uxWNXksJQg",
+                        "is_quote_status": false,
+                        "lang": "en",
+                        "possibly_sensitive": false,
+                        "possibly_sensitive_editable": true,
+                        "quote_count": 2,
+                        "reply_count": 11,
+                        "retweet_count": 60,
+                        "retweeted": false,
+                        "user_id_str": "1614808701805940737",
+                        "id_str": "2009158128902840466"
+                    }
+                }
+            },
+            "tweetDisplayType": "Tweet"
+        },
+        "feedbackInfo": {
+            "feedbackKeys": [
+                "1776585695"
+            ]
+        },
+        "clientEventInfo": {
+            "component": "for_you_uvg",
+            "element": "tweet",
+            "details": {
+                "timelinesDetails": {
+                    "injectionType": "ForYouUvg",
+                    "controllerData": "DAACDAABDAABCgABAgAAQkICACEKAAKAAAAAAAAgAAoACSxWieTOoYDRCgAKAAABm6D8KqsIAAsAAAACDwAMAwAAACghAAJCQgAAAgAgAAAAAACAAAAAAQAAAACAAAAAAADgAQAIIAAAAAABCgAObqp8znPeS2UKABBMsRPqouJEywAAAAA="
+                }
+            }
+        }
+    }
+}

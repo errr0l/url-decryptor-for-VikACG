@@ -1,0 +1,528 @@
+{
+    "name": "引用推",
+    "entryId": "tweet-2009213233354428625",
+    "sortIndex": "2009311435196202965",
+    "content": {
+        "entryType": "TimelineTimelineItem",
+        "__typename": "TimelineTimelineItem",
+        "itemContent": {
+            "itemType": "TimelineTweet",
+            "__typename": "TimelineTweet",
+            "tweet_results": {
+                "result": {
+                    "__typename": "Tweet",
+                    "rest_id": "2009213233354428625",
+                    "core": {
+                        "user_results": {
+                            "result": {
+                                "__typename": "User",
+                                "id": "VXNlcjoxOTQ5MTAxMTE3NDQ4ODgwMTI4",
+                                "rest_id": "1949101117448880128",
+                                "affiliates_highlighted_label": {},
+                                "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/2003749303643459584/6xtliG5R_normal.jpg"
+                                },
+                                "core": {
+                                    "created_at": "Sat Jul 26 13:35:09 +0000 2025",
+                                    "name": "なぎさ",
+                                    "screen_name": "Nagichan_vrc"
+                                },
+                                "dm_permissions": {
+                                    "can_dm": false
+                                },
+                                "follow_request_sent": false,
+                                "has_graduated_access": true,
+                                "is_blue_verified": false,
+                                "legacy": {
+                                    "default_profile": true,
+                                    "default_profile_image": false,
+                                    "description": "2025/7/26始めました!!\nミルティナちゃん大好きです！！\nお姉さん大好きです!！甘えさせてください！！\n清楚です。土日はおはツイ多分ないです。",
+                                    "entities": {
+                                        "description": {
+                                            "urls": []
+                                        },
+                                        "url": {
+                                            "urls": [
+                                                {
+                                                    "display_url": "vrchat.com/home/user/usr_…",
+                                                    "expanded_url": "https://vrchat.com/home/user/usr_cebf8de4-8e51-4487-be3f-ee2bc761ff70",
+                                                    "url": "https://t.co/1POW0ARe9c",
+                                                    "indices": [
+                                                        0,
+                                                        23
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "fast_followers_count": 0,
+                                    "favourites_count": 6717,
+                                    "followers_count": 386,
+                                    "friends_count": 226,
+                                    "has_custom_timelines": false,
+                                    "is_translator": false,
+                                    "listed_count": 1,
+                                    "media_count": 118,
+                                    "normal_followers_count": 386,
+                                    "pinned_tweet_ids_str": [
+                                        "2009022240646455540"
+                                    ],
+                                    "possibly_sensitive": false,
+                                    "profile_banner_url": "https://pbs.twimg.com/profile_banners/1949101117448880128/1762923290",
+                                    "profile_interstitial_type": "",
+                                    "statuses_count": 2317,
+                                    "translator_type": "none",
+                                    "url": "https://t.co/1POW0ARe9c",
+                                    "want_retweets": false,
+                                    "withheld_in_countries": []
+                                },
+                                "location": {
+                                    "location": ""
+                                },
+                                "media_permissions": {
+                                    "can_media_tag": true
+                                },
+                                "parody_commentary_fan_label": "None",
+                                "profile_image_shape": "Circle",
+                                "profile_bio": {
+                                    "description": "2025/7/26始めました!!\nミルティナちゃん大好きです！！\nお姉さん大好きです!！甘えさせてください！！\n清楚です。土日はおはツイ多分ないです。"
+                                },
+                                "privacy": {
+                                    "protected": false
+                                },
+                                "relationship_perspectives": {
+                                    "following": false
+                                },
+                                "tipjar_settings": {},
+                                "verification": {
+                                    "verified": false
+                                },
+                                "profile_description_language": "ja"
+                            }
+                        }
+                    },
+                    "unmention_data": {},
+                    "edit_control": {
+                        "edit_tweet_ids": [
+                            "2009213233354428625"
+                        ],
+                        "editable_until_msecs": "1767872338000",
+                        "is_edit_eligible": true,
+                        "edits_remaining": "5"
+                    },
+                    "is_translatable": true,
+                    "views": {
+                        "count": "1156",
+                        "state": "EnabledWithCount"
+                    },
+                    "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
+                    "grok_analysis_button": true,
+                    "quoted_status_result": {
+                        "result": {
+                            "__typename": "Tweet",
+                            "rest_id": "2009022240646455540",
+                            "core": {
+                                "user_results": {
+                                    "result": {
+                                        "__typename": "User",
+                                        "id": "VXNlcjoxOTQ5MTAxMTE3NDQ4ODgwMTI4",
+                                        "rest_id": "1949101117448880128",
+                                        "affiliates_highlighted_label": {},
+                                        "avatar": {
+                                            "image_url": "https://pbs.twimg.com/profile_images/2003749303643459584/6xtliG5R_normal.jpg"
+                                        },
+                                        "core": {
+                                            "created_at": "Sat Jul 26 13:35:09 +0000 2025",
+                                            "name": "なぎさ",
+                                            "screen_name": "Nagichan_vrc"
+                                        },
+                                        "dm_permissions": {
+                                            "can_dm": false
+                                        },
+                                        "follow_request_sent": false,
+                                        "has_graduated_access": true,
+                                        "is_blue_verified": false,
+                                        "legacy": {
+                                            "default_profile": true,
+                                            "default_profile_image": false,
+                                            "description": "2025/7/26始めました!!\nミルティナちゃん大好きです！！\nお姉さん大好きです!！甘えさせてください！！\n清楚です。土日はおはツイ多分ないです。",
+                                            "entities": {
+                                                "description": {
+                                                    "urls": []
+                                                },
+                                                "url": {
+                                                    "urls": [
+                                                        {
+                                                            "display_url": "vrchat.com/home/user/usr_…",
+                                                            "expanded_url": "https://vrchat.com/home/user/usr_cebf8de4-8e51-4487-be3f-ee2bc761ff70",
+                                                            "url": "https://t.co/1POW0ARe9c",
+                                                            "indices": [
+                                                                0,
+                                                                23
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            "fast_followers_count": 0,
+                                            "favourites_count": 6717,
+                                            "followers_count": 386,
+                                            "friends_count": 226,
+                                            "has_custom_timelines": false,
+                                            "is_translator": false,
+                                            "listed_count": 1,
+                                            "media_count": 118,
+                                            "normal_followers_count": 386,
+                                            "pinned_tweet_ids_str": [
+                                                "2009022240646455540"
+                                            ],
+                                            "possibly_sensitive": false,
+                                            "profile_banner_url": "https://pbs.twimg.com/profile_banners/1949101117448880128/1762923290",
+                                            "profile_interstitial_type": "",
+                                            "statuses_count": 2317,
+                                            "translator_type": "none",
+                                            "url": "https://t.co/1POW0ARe9c",
+                                            "want_retweets": false,
+                                            "withheld_in_countries": []
+                                        },
+                                        "location": {
+                                            "location": ""
+                                        },
+                                        "media_permissions": {
+                                            "can_media_tag": true
+                                        },
+                                        "parody_commentary_fan_label": "None",
+                                        "profile_image_shape": "Circle",
+                                        "profile_bio": {
+                                            "description": "2025/7/26始めました!!\nミルティナちゃん大好きです！！\nお姉さん大好きです!！甘えさせてください！！\n清楚です。土日はおはツイ多分ないです。"
+                                        },
+                                        "privacy": {
+                                            "protected": false
+                                        },
+                                        "relationship_perspectives": {
+                                            "following": false
+                                        },
+                                        "tipjar_settings": {},
+                                        "verification": {
+                                            "verified": false
+                                        },
+                                        "profile_description_language": "ja"
+                                    }
+                                }
+                            },
+                            "unmention_data": {},
+                            "edit_control": {
+                                "edit_tweet_ids": [
+                                    "2009022240646455540"
+                                ],
+                                "editable_until_msecs": "1767826802000",
+                                "is_edit_eligible": true,
+                                "edits_remaining": "5"
+                            },
+                            "is_translatable": true,
+                            "views": {
+                                "count": "29827",
+                                "state": "EnabledWithCount"
+                            },
+                            "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+                            "grok_analysis_button": true,
+                            "legacy": {
+                                "bookmark_count": 453,
+                                "bookmarked": false,
+                                "created_at": "Wed Jan 07 22:00:02 +0000 2026",
+                                "conversation_id_str": "2009022240646455540",
+                                "display_text_range": [
+                                    0,
+                                    84
+                                ],
+                                "entities": {
+                                    "hashtags": [
+                                        {
+                                            "indices": [
+                                                62,
+                                                71
+                                            ],
+                                            "text": "Milltina"
+                                        },
+                                        {
+                                            "indices": [
+                                                73,
+                                                84
+                                            ],
+                                            "text": "Milltina3D"
+                                        }
+                                    ],
+                                    "media": [
+                                        {
+                                            "display_url": "pic.x.com/BZ9NTDQKyN",
+                                            "expanded_url": "https://x.com/Nagichan_vrc/status/2009022240646455540/photo/1",
+                                            "id_str": "2008945961679429632",
+                                            "indices": [
+                                                85,
+                                                108
+                                            ],
+                                            "media_key": "3_2008945961679429632",
+                                            "media_url_https": "https://pbs.twimg.com/media/G-E1tVLboAA6tLE.jpg",
+                                            "type": "photo",
+                                            "url": "https://t.co/BZ9NTDQKyN",
+                                            "ext_media_availability": {
+                                                "status": "Available"
+                                            },
+                                            "features": {
+                                                "large": {
+                                                    "faces": []
+                                                },
+                                                "medium": {
+                                                    "faces": []
+                                                },
+                                                "small": {
+                                                    "faces": []
+                                                },
+                                                "orig": {
+                                                    "faces": []
+                                                }
+                                            },
+                                            "sizes": {
+                                                "large": {
+                                                    "h": 2048,
+                                                    "w": 1152,
+                                                    "resize": "fit"
+                                                },
+                                                "medium": {
+                                                    "h": 1200,
+                                                    "w": 675,
+                                                    "resize": "fit"
+                                                },
+                                                "small": {
+                                                    "h": 680,
+                                                    "w": 383,
+                                                    "resize": "fit"
+                                                },
+                                                "thumb": {
+                                                    "h": 150,
+                                                    "w": 150,
+                                                    "resize": "crop"
+                                                }
+                                            },
+                                            "original_info": {
+                                                "height": 2160,
+                                                "width": 1215,
+                                                "focus_rects": [
+                                                    {
+                                                        "x": 0,
+                                                        "y": 578,
+                                                        "w": 1215,
+                                                        "h": 680
+                                                    },
+                                                    {
+                                                        "x": 0,
+                                                        "y": 311,
+                                                        "w": 1215,
+                                                        "h": 1215
+                                                    },
+                                                    {
+                                                        "x": 0,
+                                                        "y": 226,
+                                                        "w": 1215,
+                                                        "h": 1385
+                                                    },
+                                                    {
+                                                        "x": 135,
+                                                        "y": 0,
+                                                        "w": 1080,
+                                                        "h": 2160
+                                                    },
+                                                    {
+                                                        "x": 0,
+                                                        "y": 0,
+                                                        "w": 1215,
+                                                        "h": 2160
+                                                    }
+                                                ]
+                                            },
+                                            "allow_download_status": {
+                                                "allow_download": true
+                                            },
+                                            "media_results": {
+                                                "result": {
+                                                    "media_key": "3_2008945961679429632"
+                                                }
+                                            }
+                                        }
+                                    ],
+                                    "symbols": [],
+                                    "timestamps": [],
+                                    "urls": [],
+                                    "user_mentions": []
+                                },
+                                "extended_entities": {
+                                    "media": [
+                                        {
+                                            "display_url": "pic.x.com/BZ9NTDQKyN",
+                                            "expanded_url": "https://x.com/Nagichan_vrc/status/2009022240646455540/photo/1",
+                                            "id_str": "2008945961679429632",
+                                            "indices": [
+                                                85,
+                                                108
+                                            ],
+                                            "media_key": "3_2008945961679429632",
+                                            "media_url_https": "https://pbs.twimg.com/media/G-E1tVLboAA6tLE.jpg",
+                                            "type": "photo",
+                                            "url": "https://t.co/BZ9NTDQKyN",
+                                            "ext_media_availability": {
+                                                "status": "Available"
+                                            },
+                                            "features": {
+                                                "large": {
+                                                    "faces": []
+                                                },
+                                                "medium": {
+                                                    "faces": []
+                                                },
+                                                "small": {
+                                                    "faces": []
+                                                },
+                                                "orig": {
+                                                    "faces": []
+                                                }
+                                            },
+                                            "sizes": {
+                                                "large": {
+                                                    "h": 2048,
+                                                    "w": 1152,
+                                                    "resize": "fit"
+                                                },
+                                                "medium": {
+                                                    "h": 1200,
+                                                    "w": 675,
+                                                    "resize": "fit"
+                                                },
+                                                "small": {
+                                                    "h": 680,
+                                                    "w": 383,
+                                                    "resize": "fit"
+                                                },
+                                                "thumb": {
+                                                    "h": 150,
+                                                    "w": 150,
+                                                    "resize": "crop"
+                                                }
+                                            },
+                                            "original_info": {
+                                                "height": 2160,
+                                                "width": 1215,
+                                                "focus_rects": [
+                                                    {
+                                                        "x": 0,
+                                                        "y": 578,
+                                                        "w": 1215,
+                                                        "h": 680
+                                                    },
+                                                    {
+                                                        "x": 0,
+                                                        "y": 311,
+                                                        "w": 1215,
+                                                        "h": 1215
+                                                    },
+                                                    {
+                                                        "x": 0,
+                                                        "y": 226,
+                                                        "w": 1215,
+                                                        "h": 1385
+                                                    },
+                                                    {
+                                                        "x": 135,
+                                                        "y": 0,
+                                                        "w": 1080,
+                                                        "h": 2160
+                                                    },
+                                                    {
+                                                        "x": 0,
+                                                        "y": 0,
+                                                        "w": 1215,
+                                                        "h": 2160
+                                                    }
+                                                ]
+                                            },
+                                            "allow_download_status": {
+                                                "allow_download": true
+                                            },
+                                            "media_results": {
+                                                "result": {
+                                                    "media_key": "3_2008945961679429632"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                },
+                                "favorite_count": 2910,
+                                "favorited": false,
+                                "full_text": "おはようございます!!·͜·ᰔᩚ\n恥ずかしいからあんまじろじろ見ないで…⁄(⁄ ⁄&gt;⁄-⁄&lt;⁄ ⁄)⁄ෆ⸝⸝꙳\n#Milltina \n#Milltina3D https://t.co/BZ9NTDQKyN",
+                                "is_quote_status": false,
+                                "lang": "ja",
+                                "possibly_sensitive": false,
+                                "possibly_sensitive_editable": true,
+                                "quote_count": 2,
+                                "reply_count": 21,
+                                "retweet_count": 98,
+                                "retweeted": false,
+                                "user_id_str": "1949101117448880128",
+                                "id_str": "2009022240646455540"
+                            }
+                        }
+                    },
+                    "legacy": {
+                        "bookmark_count": 7,
+                        "bookmarked": false,
+                        "created_at": "Thu Jan 08 10:38:58 +0000 2026",
+                        "conversation_id_str": "2009213233354428625",
+                        "display_text_range": [
+                            0,
+                            41
+                        ],
+                        "entities": {
+                            "hashtags": [],
+                            "symbols": [],
+                            "timestamps": [],
+                            "urls": [],
+                            "user_mentions": []
+                        },
+                        "favorite_count": 71,
+                        "favorited": false,
+                        "full_text": "1600…!?!?Σ(º▵º*) \n感謝ですっ!!◝(⑅&gt;ᴗ&lt;⑅)◜❤",
+                        "is_quote_status": true,
+                        "lang": "ja",
+                        "quote_count": 0,
+                        "quoted_status_id_str": "2009022240646455540",
+                        "quoted_status_permalink": {
+                            "url": "https://t.co/Ox8blBqWTp",
+                            "expanded": "https://twitter.com/Nagichan_vrc/status/2009022240646455540",
+                            "display": "x.com/Nagichan_vrc/s…"
+                        },
+                        "reply_count": 1,
+                        "retweet_count": 2,
+                        "retweeted": false,
+                        "user_id_str": "1949101117448880128",
+                        "id_str": "2009213233354428625"
+                    }
+                }
+            },
+            "tweetDisplayType": "Tweet"
+        },
+        "feedbackInfo": {
+            "feedbackKeys": [
+                "1129080037"
+            ]
+        },
+        "clientEventInfo": {
+            "component": "for_you_phoenix_retrieval",
+            "element": "tweet",
+            "details": {
+                "timelinesDetails": {
+                    "injectionType": "ForYouPhoenixRetrieval",
+                    "controllerData": "DAACDAABDAABCgABAAAAQgAQAAEKAAKAAAAAAAAAAAoACcNvTBik30qyCgAKAAABm56vbrsIAAsAAAAGDwAMAwAAACcBABAAQgAAAAAAAAAAAACAAAAAAAAAAAAAAAAAEADgAQAAAAAAAEAKAA44zYz6cL1EvAoAENHJYs78FUqYAAAAAA=="
+                }
+            }
+        }
+    }
+}
