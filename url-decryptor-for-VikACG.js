@@ -2736,7 +2736,7 @@
         }
     };
     const targets = [];
-    const ll = /\"https?:\/\/[^\s<>"{}|\\^`[\]]+\"/gi;
+    const ll = /(?:"|\b)https?:\/\/[^\s<>"{}|\\^`\[\]]+(?:"|\b)/gi;
     const lll = /.*?\((.*?)\)/;
     function hook(targets) {
         const open = XMLHttpRequest.prototype.open;
@@ -2790,7 +2790,7 @@
                 if (!f.size) {
                     continue;
                 }
-                for (const g of f) {
+                for (let g of f) {
                     I[g] = {
                         i: g,
                         iiii(ii) {
